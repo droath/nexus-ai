@@ -18,14 +18,13 @@ final class UserMessage extends MessageBase implements MessageDriverAwareInterfa
 
     protected ?DriverInterface $driver = null;
 
-    private function __construct(
-        public readonly string $content,
-        public readonly ?MessageContext $context,
-    ) {}
+    protected function __construct(
+        string $content,
+        public readonly ?MessageContext $context = null,
+    ) {
+        parent::__construct($content);
+    }
 
-    /**
-     * @return mixed
-     */
     public static function make(
         string $content,
         null|string|MessageContext $context = null,

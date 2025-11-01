@@ -35,6 +35,8 @@ class NextusAiFake implements Fake
 
         $this->resource = $this->buildResource();
 
+        assert($this->resource instanceof ChatResourceInterface);
+
         return $this->resource;
     }
 
@@ -46,6 +48,8 @@ class NextusAiFake implements Fake
         $this->provider = $provider;
 
         $this->resource = $this->buildResource();
+
+        assert($this->resource instanceof ResponsesResourceInterface);
 
         return $this->resource;
     }

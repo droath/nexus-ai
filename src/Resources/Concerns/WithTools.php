@@ -31,7 +31,7 @@ trait WithTools
             return $this->tools->map(function ($tool) {
                 if ($tool instanceof Tool) {
                     if ($this instanceof HasToolTransformerInterface) {
-                        return self::transformTool($tool);
+                        return $this::transformTool($tool);
                     }
 
                     return $this->driver::transformTool($tool);

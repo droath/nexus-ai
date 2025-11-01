@@ -20,8 +20,6 @@ enum LlmRoles: string
     case ASSISTANT = 'assistant';
 
     /**
-     * @param \Droath\NextusAi\Enums\LlmRoles $role
-     *
      * @throws \Exception
      */
     public static function createMessageFrom(

@@ -155,13 +155,11 @@ class OpenaiChatResource implements ChatResourceInterface, HasDriverInterface, H
         string $chunk,
         ?string $streamContent
     ): void {
-        $streamProcess = $this->streamProcess;
-
-        if (is_callable($streamProcess)) {
+        if (isset($this->streamProcess)) {
             $partial = $chunk;
             $initialized = is_null($streamContent);
 
-            $streamProcess(
+            ($this->streamProcess)(
                 $partial,
                 $initialized,
             );
@@ -175,11 +173,9 @@ class OpenaiChatResource implements ChatResourceInterface, HasDriverInterface, H
         string $chunk,
         ?string $streamContent
     ): void {
-        $streamBufferProcess = $this->streamBufferProcess;
-
         if (
-            is_callable($streamBufferProcess)
-            && $streamBufferProcess(
+            isset($this->streamBufferProcess)
+            && ($this->streamBufferProcess)(
                 $chunk,
                 $this->streamBuffer
             )
@@ -216,7 +212,7 @@ class OpenaiChatResource implements ChatResourceInterface, HasDriverInterface, H
     protected function isToolCall(CreateResponseChoice $choice): bool
     {
         return ($choice->finishReason === 'tool_calls')
-            && ! empty($choice->message?->toolCalls ?? []);
+            && ! empty($choice->message->toolCalls ?? []);
     }
 
     /**
@@ -374,11 +370,10 @@ class OpenaiChatResource implements ChatResourceInterface, HasDriverInterface, H
                 $streamToolCalls
             );
 
-            if ($finishReason === 'tool_calls'
-                && ! empty($streamToolCalls)
-                && ($choice = CreateStreamedResponseChoice::from($streamToolCalls))
-            ) {
-                $toolCallResponse = $this->handleToolCall($choice);
+            if ($finishReason === 'tool_calls' && ! empty($streamToolCalls)) {
+                $toolCallResponse = $this->handleToolCall(
+                    CreateStreamedResponseChoice::from($streamToolCalls)
+                );
 
                 return $this->handleResponse($toolCallResponse);
             }

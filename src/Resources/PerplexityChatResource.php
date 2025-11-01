@@ -47,7 +47,7 @@ class PerplexityChatResource implements ChatResourceInterface, HasMessagesInterf
 
     protected function handleResponse(): ?NextusAiResponseMessage
     {
-        $response = $this->client->createChatCompletion([],
+        $response = $this->client->createChatCompletion(
             $this->resourceParameters()
         );
 

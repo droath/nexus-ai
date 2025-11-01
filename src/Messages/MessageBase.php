@@ -6,9 +6,10 @@ namespace Droath\NextusAi\Messages;
 
 use Illuminate\Contracts\Support\Arrayable;
 
+/** @phpstan-consistent-constructor */
 abstract class MessageBase implements Arrayable
 {
-    private function __construct(
+    protected function __construct(
         public readonly string $content,
     ) {}
 
@@ -22,9 +23,6 @@ abstract class MessageBase implements Arrayable
         );
     }
 
-    /**
-     * @return static
-     */
     public static function make(
         string $content,
     ): mixed {

@@ -210,7 +210,6 @@ class ClaudeChatResource implements ChatResourceInterface, HasDriverInterface, H
         return $response->type === 'message_stop' || (
             $response->type === 'message_delta'
             && isset($response->delta->stop_reason)
-            && $response->delta->stop_reason !== null
         );
     }
 
@@ -258,13 +257,11 @@ class ClaudeChatResource implements ChatResourceInterface, HasDriverInterface, H
         string $chunk,
         string $streamContent
     ): void {
-        $streamProcess = $this->streamProcess;
-
-        if (is_callable($streamProcess)) {
+        if (isset($this->streamProcess)) {
             $partial = $chunk;
             $initialized = empty($streamContent);
 
-            $streamProcess(
+            ($this->streamProcess)(
                 $partial,
                 $initialized,
             );
@@ -281,11 +278,9 @@ class ClaudeChatResource implements ChatResourceInterface, HasDriverInterface, H
         string $chunk,
         string $streamContent
     ): void {
-        $streamBufferProcess = $this->streamBufferProcess;
-
         if (
-            is_callable($streamBufferProcess)
-            && $streamBufferProcess(
+            isset($this->streamBufferProcess)
+            && ($this->streamBufferProcess)(
                 $chunk,
                 $this->streamBuffer
             )

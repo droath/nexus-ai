@@ -7,6 +7,7 @@ namespace Droath\NextusAi\Testing\Support;
 use OpenAI\Responses\Responses\CreateResponse;
 use OpenAI\Testing\Enums\OverrideStrategy;
 
+/** @phpstan-ignore trait.unused */
 trait ResourceResponsesHelper
 {
     /**

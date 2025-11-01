@@ -32,6 +32,11 @@ class FakeResource implements ChatResourceInterface, HasDriverInterface, HasMess
     use WithResponseFormat;
     use WithTools;
 
+    /** @var array<string, mixed> */
+    public array $invokedParameters = [];
+
+    protected ?string $model = null;
+
     public function __construct(
         protected LlmProvider $provider,
         protected ?\Closure $responseHandler = null,
@@ -65,7 +70,13 @@ class FakeResource implements ChatResourceInterface, HasDriverInterface, HasMess
     public function driver(): DriverInterface
     {
         return match ($this->provider) {
-            LlmProvider::OPENAI => new Openai(new ClientFake([$this]))
+            LlmProvider::OPENAI => new Openai(
+                /** @phpstan-ignore-next-line Fake resource for testing */
+                new ClientFake([$this])
+            ),
+            LlmProvider::CLAUDE, LlmProvider::PERPLEXITY => throw new \RuntimeException(
+                "Fake driver for {$this->provider->value} not implemented yet"
+            ),
         };
     }
 }

@@ -47,9 +47,8 @@ trait WithMessages
             if (
                 $this instanceof HasDriverInterface
                 && $message instanceof MessageDriverAwareInterface
-                && ($driver = $this->driver())
             ) {
-                $message->setDriver($driver);
+                $message->setDriver($this->driver());
             }
             if ($message instanceof Arrayable) {
                 $message = $message->toArray();

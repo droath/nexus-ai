@@ -8,6 +8,16 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Agent Memory Model.
+ *
+ * @property int $id
+ * @property string $key
+ * @property mixed $value
+ * @property Carbon|null $expires_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ */
 class AgentMemory extends Model
 {
     /**
@@ -18,7 +28,7 @@ class AgentMemory extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var list<string>
      */
     protected $fillable = [
         'key',

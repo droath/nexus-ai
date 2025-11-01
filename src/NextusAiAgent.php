@@ -6,20 +6,19 @@ namespace Droath\NextusAi;
 
 use Droath\NextusAi\Plugins\AgentWorkerPluginManager;
 use Illuminate\Support\Facades\Log;
+use Droath\NextusAi\Plugins\Contracts\AgentWorkerPluginInterface;
 
 class NextusAiAgent
 {
-    /**
-     * @return mixed
-     */
     public function run(
         string $pluginId,
         string|array $message,
     ): array {
         try {
             $manager = app(AgentWorkerPluginManager::class);
-            /** @var \Droath\NextusAi\Plugins\Contracts\AgentWorkerPluginInterface $agent */
-            if ($agent = $manager->createInstance($pluginId)) {
+            $agent = $manager->createInstance($pluginId);
+
+            if ($agent instanceof AgentWorkerPluginInterface) {
                 return $agent->respond(
                     is_array($message) ? $message : [$message]
                 );

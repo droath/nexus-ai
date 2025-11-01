@@ -56,7 +56,7 @@ class ObjectSchema implements Arrayable
     {
         return collect($this->properties)
             ->filter(function ($property) {
-                return $property?->required ?? false;
+                return $property->required ?? false;
             })
             ->pluck('name')
             ->toArray();

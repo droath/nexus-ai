@@ -111,13 +111,11 @@ class OpenaiResponsesResource implements HasDriverInterface, HasMessagesInterfac
         string $chunk,
         ?string $streamContent
     ): void {
-        $streamProcess = $this->streamProcess;
-
-        if (is_callable($streamProcess)) {
+        if (isset($this->streamProcess)) {
             $partial = $chunk;
             $initialized = is_null($streamContent);
 
-            $streamProcess(
+            ($this->streamProcess)(
                 $partial,
                 $initialized,
             );
@@ -131,11 +129,9 @@ class OpenaiResponsesResource implements HasDriverInterface, HasMessagesInterfac
         string $chunk,
         ?string $streamContent
     ): void {
-        $streamBufferProcess = $this->streamBufferProcess;
-
         if (
-            is_callable($streamBufferProcess)
-            && $streamBufferProcess(
+            isset($this->streamBufferProcess)
+            && ($this->streamBufferProcess)(
                 $chunk,
                 $this->streamBuffer
             )
@@ -234,7 +230,6 @@ class OpenaiResponsesResource implements HasDriverInterface, HasMessagesInterfac
             return match (true) {
                 $response instanceof StreamResponse => $this->handleStream($response),
                 $response instanceof CreateResponse => $this->handleSynchronous($response),
-                default => throw new \RuntimeException('Unexpected response instance')
             };
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -250,11 +245,10 @@ class OpenaiResponsesResource implements HasDriverInterface, HasMessagesInterfac
         CreateResponse $response
     ): ?NextusAiResponseMessage {
         foreach ($response->output as $output) {
-            if (
-                $output instanceof OutputFunctionToolCall
-                && ($response = $this->handleFunctionToolCall($output))
-            ) {
-                $this->handleResponse($response);
+            if ($output instanceof OutputFunctionToolCall) {
+                $this->handleResponse(
+                    $this->handleFunctionToolCall($output)
+                );
             }
         }
 

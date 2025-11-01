@@ -57,8 +57,9 @@ class MemoryException extends Exception
     /**
      * Create a contextualized exception instance.
      */
-    public static function forKey(string $key, string $message = '', ?Exception $previous = null): static
+    public static function forKey(string $key, string $message = '', ?\Throwable $previous = null): static
     {
+        /** @phpstan-ignore-next-line Safe usage of new static() - all subclasses use default Exception constructor */
         $exception = new static($message ?: "Memory error for key: {$key}", 0, $previous);
 
         return $exception->setMemoryKey($key);
@@ -67,8 +68,9 @@ class MemoryException extends Exception
     /**
      * Create a strategy-specific exception instance.
      */
-    public static function forStrategy(string $strategy, string $message = '', ?Exception $previous = null): static
+    public static function forStrategy(string $strategy, string $message = '', ?\Throwable $previous = null): static
     {
+        /** @phpstan-ignore-next-line Safe usage of new static() - all subclasses use default Exception constructor */
         $exception = new static($message ?: "Memory error in strategy: {$strategy}", 0, $previous);
 
         return $exception->setStrategy($strategy);
