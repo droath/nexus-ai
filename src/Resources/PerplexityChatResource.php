@@ -18,7 +18,7 @@ use SoftCreatR\PerplexityAI\PerplexityAI;
 /**
  * Define the Perplexity chat resource.
  */
-class PerplexityChatResource implements ChatResourceInterface, HasMessagesInterface, HasResponseFormatInterface
+class PerplexityChatResource extends ResourceBase implements ChatResourceInterface, HasMessagesInterface, HasResponseFormatInterface
 {
     use WithMessages;
     use withResponseFormat;

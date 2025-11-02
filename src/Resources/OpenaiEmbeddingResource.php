@@ -15,7 +15,7 @@ use Droath\NextusAi\Resources\Contracts\HasInputInterface;
 use Droath\NextusAi\Responses\NextusAiResponseEmbeddings;
 use OpenAI\Responses\Embeddings\CreateResponse;
 
-class OpenaiEmbeddingResource implements EmbeddingsResourceInterface, HasDriverInterface, HasInputInterface
+class OpenaiEmbeddingResource extends ResourceBase implements EmbeddingsResourceInterface, HasDriverInterface, HasInputInterface
 {
     protected string $model = Openai::DEFAULT_EMBEDDING_MODEL;
 

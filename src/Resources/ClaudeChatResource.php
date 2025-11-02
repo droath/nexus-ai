@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Log;
  * This resource provides functionality for both streaming and synchronous chat
  * responses, tool calling, and proper error handling for the Claude API.
  */
-class ClaudeChatResource implements ChatResourceInterface, HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface
+class ClaudeChatResource extends ResourceBase implements ChatResourceInterface, HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface
 {
     use HasStreaming;
     use WithMessages;

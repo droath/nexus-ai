@@ -32,7 +32,7 @@ use Droath\NextusAi\Resources\Contracts\ResponsesResourceInterface;
 /**
  * Define the OpenAI responses resource.
  */
-class OpenaiResponsesResource implements HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface, ResponsesResourceInterface
+class OpenaiResponsesResource extends ResourceBase implements HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface, ResponsesResourceInterface
 {
     protected string $model = Openai::DEFAULT_MODEL;
 

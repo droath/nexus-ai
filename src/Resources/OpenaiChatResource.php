@@ -36,7 +36,7 @@ use Droath\NextusAi\Resources\Contracts\HasToolTransformerInterface;
 /**
  * Define the OpenAI chat resource.
  */
-class OpenaiChatResource implements ChatResourceInterface, HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface, HasToolTransformerInterface
+class OpenaiChatResource extends ResourceBase implements ChatResourceInterface, HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface, HasToolTransformerInterface
 {
     protected string $model = Openai::DEFAULT_MODEL;
 
