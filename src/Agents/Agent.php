@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Agents;
 
+use Closure;
+use JsonException;
+use RuntimeException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Droath\NextusAi\Tools\Tool;
@@ -33,7 +36,7 @@ class Agent implements AgentInterface
 
     protected bool $skipTransformResponse = false;
 
-    protected ?\Closure $transformResponseHandler = null;
+    protected ?Closure $transformResponseHandler = null;
 
     /**
      * Define the agent constructor.
@@ -47,6 +50,22 @@ class Agent implements AgentInterface
         $this->input = ! is_array($input)
             ? [UserMessage::make($input)]
             : $input;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __invoke(
+        NextusAiResponseMessage|array $response,
+        Closure $next
+    ): NextusAiResponseMessage|null|array {
+        $response = $this->normalizeResponse($response);
+
+        $innerResource = $this
+            ->addInput($response)
+            ->run();
+
+        return $next($innerResource);
     }
 
     /**
@@ -97,22 +116,6 @@ class Agent implements AgentInterface
         $this->description = $description;
 
         return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function __invoke(
-        NextusAiResponseMessage|array $response,
-        \Closure $next
-    ): NextusAiResponseMessage|null|array {
-        $response = $this->normalizeResponse($response);
-
-        $innerResource = $this
-            ->addInput($response)
-            ->run();
-
-        return $next($innerResource);
     }
 
     /**
@@ -240,7 +243,7 @@ class Agent implements AgentInterface
     /**
      * {@inheritDoc}
      */
-    public function transformResponseUsing(\Closure $handler): static
+    public function transformResponseUsing(Closure $handler): static
     {
         $this->transformResponseHandler = $handler;
 
@@ -284,7 +287,7 @@ class Agent implements AgentInterface
         $resource = $this->resource($resource);
 
         if (! isset($resource)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'Resource is not set.'
             );
         }
@@ -313,7 +316,7 @@ class Agent implements AgentInterface
     /**
      * Normalize the response message.
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function normalizeResponse(
         NextusAiResponseMessage|array $response

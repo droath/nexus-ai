@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Messages\Concerns;
 
-use Illuminate\Support\Facades\Log;
+use Throwable;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
 
 trait ViewSupport
 {
@@ -13,7 +14,7 @@ trait ViewSupport
     {
         try {
             return self::make($view->render());
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
         }
 

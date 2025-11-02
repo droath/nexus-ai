@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use OpenAI\Testing\ClientFake;
 use Illuminate\Support\Collection;
 use Droath\NextusAi\Facades\NextusAi;
-use Droath\NextusAi\Plugins\AgentPluginManager;
 use Droath\NextusAi\Agents\Enums\AgentStrategy;
+use Droath\NextusAi\Plugins\AgentPluginManager;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
 use Droath\NextusAi\Plugins\AgentCoordinatorPluginManager;
 use Droath\NextusAi\Resources\Contracts\ResourceInterface;
@@ -47,10 +49,10 @@ test('agent coordinator plugins using a parallel strategy', function () {
     NextusAi::fake(resourceCallback: function () use ($contentResponse, $metadataResponse, $coordinatorResponse) {
         $client = (new ClientFake([$contentResponse, $metadataResponse, $coordinatorResponse]));
 
-        return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
+        return (new Droath\NextusAi\Drivers\Openai($client))->structured();
     });
 
-    /** @var \Droath\NextusAi\Plugins\AgentCoordinator\AgentCoordinatorPlugin $coordinator */
+    /** @var Droath\NextusAi\Plugins\AgentCoordinator\AgentCoordinatorPlugin $coordinator */
     $coordinator = $this->manager->createInstance('content_agent_coordinator');
 
     $response = $coordinator->respond('This is the website source content.');
@@ -82,7 +84,7 @@ test('agent coordinator plugins using a parallel strategy', function () {
 test('agent coordinator plugin using the sequence strategy', function () {
     NextusAi::fake();
 
-    /** @var \Droath\NextusAi\Plugins\AgentCoordinator\AgentCoordinatorPlugin $coordinator */
+    /** @var Droath\NextusAi\Plugins\AgentCoordinator\AgentCoordinatorPlugin $coordinator */
     $coordinator = $this->manager->createInstance('research_agent_coordinator');
 
     $response = $coordinator->respond('What is the meaning of life?');
@@ -118,7 +120,7 @@ test('agent coordinator plugin using the sequence strategy', function () {
 test('agent coordinator plugin using router strategy', closure: function () {
     NextusAi::fake();
 
-    /** @var \Droath\NextusAi\Plugins\AgentCoordinator\AgentCoordinatorPlugin $coordinator */
+    /** @var Droath\NextusAi\Plugins\AgentCoordinator\AgentCoordinatorPlugin $coordinator */
     $coordinator = $this->manager->createInstance('reporter_agent_coordinator');
 
     $response = $coordinator->respond('Provide me with the latest news');

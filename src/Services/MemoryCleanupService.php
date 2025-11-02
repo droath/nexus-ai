@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Services;
 
+use Exception;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Droath\NextusAi\Memory\MemoryDefinition;
 use Droath\NextusAi\Memory\MemoryStrategyFactory;
 use Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Collection;
 
 /**
  * Service for cleaning up expired memory entries across all configured strategies.
@@ -48,7 +49,7 @@ class MemoryCleanupService
                     Log::info("Memory cleanup: {$strategyType} strategy completed successfully");
                 }
 
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $results[$strategyType] = [
                     'status' => 'error',
                     'error' => $e->getMessage(),
@@ -113,7 +114,7 @@ class MemoryCleanupService
                     $stats[$strategyType] = ['available' => false];
                 }
 
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $stats[$strategyType] = [
                     'available' => false,
                     'error' => $e->getMessage(),
@@ -157,7 +158,7 @@ class MemoryCleanupService
 
             return $factory->createInstance();
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error("Failed to create {$strategyType} strategy for cleanup: {$e->getMessage()}");
 
             return null;

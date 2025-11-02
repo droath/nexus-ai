@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Droath\NextusAi\Memory\Exceptions;
 
 use Exception;
+use Throwable;
 
 /**
  * Base exception for memory-related errors.
@@ -17,6 +18,28 @@ class MemoryException extends Exception
     protected string $memoryKey = '';
 
     protected string $strategy = '';
+
+    /**
+     * Create a contextualized exception instance.
+     */
+    public static function forKey(string $key, string $message = '', ?Throwable $previous = null): static
+    {
+        /** @phpstan-ignore-next-line Safe usage of new static() - all subclasses use default Exception constructor */
+        $exception = new static($message ?: "Memory error for key: {$key}", 0, $previous);
+
+        return $exception->setMemoryKey($key);
+    }
+
+    /**
+     * Create a strategy-specific exception instance.
+     */
+    public static function forStrategy(string $strategy, string $message = '', ?Throwable $previous = null): static
+    {
+        /** @phpstan-ignore-next-line Safe usage of new static() - all subclasses use default Exception constructor */
+        $exception = new static($message ?: "Memory error in strategy: {$strategy}", 0, $previous);
+
+        return $exception->setStrategy($strategy);
+    }
 
     /**
      * Set the memory key associated with this exception.
@@ -52,27 +75,5 @@ class MemoryException extends Exception
     public function getStrategy(): string
     {
         return $this->strategy;
-    }
-
-    /**
-     * Create a contextualized exception instance.
-     */
-    public static function forKey(string $key, string $message = '', ?\Throwable $previous = null): static
-    {
-        /** @phpstan-ignore-next-line Safe usage of new static() - all subclasses use default Exception constructor */
-        $exception = new static($message ?: "Memory error for key: {$key}", 0, $previous);
-
-        return $exception->setMemoryKey($key);
-    }
-
-    /**
-     * Create a strategy-specific exception instance.
-     */
-    public static function forStrategy(string $strategy, string $message = '', ?\Throwable $previous = null): static
-    {
-        /** @phpstan-ignore-next-line Safe usage of new static() - all subclasses use default Exception constructor */
-        $exception = new static($message ?: "Memory error in strategy: {$strategy}", 0, $previous);
-
-        return $exception->setStrategy($strategy);
     }
 }

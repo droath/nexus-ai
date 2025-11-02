@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Drivers;
 
+use SoftCreatR\PerplexityAI\PerplexityAI;
+use Droath\NextusAi\Resources\PerplexityChatResource;
 use Droath\NextusAi\Drivers\Contracts\HasChatInterface;
 use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
-use Droath\NextusAi\Resources\PerplexityChatResource;
-use SoftCreatR\PerplexityAI\PerplexityAI;
 
 class Perplexity extends NextusAiDriver implements HasChatInterface
 {

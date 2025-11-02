@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Enums;
 
-use Droath\NextusAi\Messages\AssistantMessage;
+use Exception;
 use Droath\NextusAi\Messages\MessageBase;
-use Droath\NextusAi\Messages\SystemMessage;
 use Droath\NextusAi\Messages\UserMessage;
+use Droath\NextusAi\Messages\SystemMessage;
+use Droath\NextusAi\Messages\AssistantMessage;
 
 /**
  * Define the standard LLM message roles.
@@ -20,7 +21,7 @@ enum LlmRoles: string
     case ASSISTANT = 'assistant';
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public static function createMessageFrom(
         string $role,
@@ -32,7 +33,7 @@ enum LlmRoles: string
             self::USER => UserMessage::fromValue($values),
             self::SYSTEM => SystemMessage::fromValue($values),
             self::ASSISTANT => AssistantMessage::fromValue($values),
-            default => throw new \Exception('Unexpected match value'),
+            default => throw new Exception('Unexpected match value'),
         };
     }
 }

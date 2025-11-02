@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
+use OpenAI\Testing\ClientFake;
+use Droath\NextusAi\Tools\Tool;
 use Droath\NextusAi\Agents\Agent;
 use Droath\NextusAi\Facades\NextusAi;
-use Droath\NextusAi\Drivers\Enums\LlmProvider;
-use Droath\NextusAi\Messages\SystemMessage;
+use Droath\NextusAi\Tools\ToolProperty;
 use Droath\NextusAi\Messages\UserMessage;
-use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
+use Droath\NextusAi\Messages\SystemMessage;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
 use Droath\NextusAi\Testing\Support\ResourceResponsesHelper;
-use Droath\NextusAi\Tools\Tool;
-use Droath\NextusAi\Tools\ToolProperty;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use OpenAI\Testing\ClientFake;
+use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
 
 uses(RefreshDatabase::class);
 uses(ResourceResponsesHelper::class);
@@ -23,7 +25,7 @@ test('agent with tool', function () {
     NextusAi::fake(resourceCallback: function () use ($resourceResponse) {
         $client = (new ClientFake([$resourceResponse]));
 
-        return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
+        return (new Droath\NextusAi\Drivers\Openai($client))->structured();
     });
     $tool = Tool::make('get_weather')
         ->describe('Get the current weather in a given location')

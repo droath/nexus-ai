@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Drivers;
 
-use Illuminate\Support\Collection;
-use Anthropic\Contracts\ClientContract;
 use Droath\NextusAi\Tools\Tool;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use Anthropic\Contracts\ClientContract;
 use Droath\NextusAi\Resources\ClaudeChatResource;
 use Droath\NextusAi\Drivers\Contracts\HasChatInterface;
 use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Define the Claude driver for the Nextus AI LLM client.
@@ -123,7 +123,7 @@ class Claude extends NextusAiDriver implements HasChatInterface
      */
     protected function isValidApiKeyFormat(string $apiKey): bool
     {
-        return str_starts_with($apiKey, 'sk-ant-') && strlen($apiKey) > 10;
+        return str_starts_with($apiKey, 'sk-ant-') && mb_strlen($apiKey) > 10;
     }
 
     /**
@@ -131,6 +131,6 @@ class Claude extends NextusAiDriver implements HasChatInterface
      */
     protected function isValidModelFormat(string $model): bool
     {
-        return str_starts_with($model, 'claude-') && strlen($model) >= 10 && strlen($model) <= 50;
+        return str_starts_with($model, 'claude-') && mb_strlen($model) >= 10 && mb_strlen($model) <= 50;
     }
 }

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Testing\Support;
 
-use OpenAI\Responses\Responses\CreateResponse;
+use JsonException;
 use OpenAI\Testing\Enums\OverrideStrategy;
+use OpenAI\Responses\Responses\CreateResponse;
 
 /** @phpstan-ignore trait.unused */
 trait ResourceResponsesHelper
@@ -41,7 +42,7 @@ trait ResourceResponsesHelper
     /**
      * Create a fake JSON response.
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function createFakeJsonResponse(
         array $data,

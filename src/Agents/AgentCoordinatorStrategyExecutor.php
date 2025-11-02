@@ -9,8 +9,8 @@ use Droath\NextusAi\Messages\UserMessage;
 use Droath\NextusAi\Agents\Enums\AgentStrategy;
 use Droath\NextusAi\Agents\Contracts\AgentInterface;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
-use Droath\NextusAi\Resources\Contracts\ResourceInterface;
 use Droath\NextusAi\Resources\Contracts\HasToolsInterface;
+use Droath\NextusAi\Resources\Contracts\ResourceInterface;
 use Droath\NextusAi\Resources\Contracts\HasMessagesInterface;
 use Droath\NextusAi\Agents\ValueObject\AgentCoordinatorResponse;
 
@@ -20,11 +20,11 @@ use Droath\NextusAi\Agents\ValueObject\AgentCoordinatorResponse;
 final class AgentCoordinatorStrategyExecutor
 {
     /**
-     * @param \Droath\NextusAi\Agents\Agent[] $agents
+     * @param Agent[] $agents
      *   The agents to execute.
-     * @param \Droath\NextusAi\Agents\Enums\AgentStrategy $strategy
+     * @param AgentStrategy $strategy
      *   The agent executing strategy.
-     * @param \Droath\NextusAi\Resources\Contracts\ResourceInterface $resource
+     * @param ResourceInterface $resource
      *   The agent LLM resource instance.
      */
     public function __construct(

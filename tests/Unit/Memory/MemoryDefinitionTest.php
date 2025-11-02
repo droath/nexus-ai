@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Droath\NextusAi\Memory\MemoryDefinition;
 use Illuminate\Contracts\Support\Arrayable;
+use Droath\NextusAi\Memory\MemoryDefinition;
 
 describe('MemoryDefinition', function () {
     test('can be instantiated with valid type', function () {

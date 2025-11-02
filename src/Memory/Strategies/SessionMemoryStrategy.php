@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Memory\Strategies;
 
-use Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface;
-use Droath\NextusAi\Memory\Exceptions\MemoryStorageException;
+use Throwable;
 use Illuminate\Session\Store;
 use Illuminate\Contracts\Session\Session;
-use Throwable;
+use Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface;
+use Droath\NextusAi\Memory\Exceptions\MemoryStorageException;
 
 /**
  * Session-based memory strategy for agent data storage.

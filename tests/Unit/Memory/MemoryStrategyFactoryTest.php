@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use Droath\NextusAi\Memory\MemoryStrategyFactory;
 use Droath\NextusAi\Memory\MemoryDefinition;
-use Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface;
-use Droath\NextusAi\Memory\Strategies\SessionMemoryStrategy;
-use Droath\NextusAi\Memory\Strategies\DatabaseMemoryStrategy;
+use Droath\NextusAi\Memory\MemoryStrategyFactory;
 use Droath\NextusAi\Memory\Strategies\NullMemoryStrategy;
+use Droath\NextusAi\Memory\Strategies\SessionMemoryStrategy;
+use Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface;
+use Droath\NextusAi\Memory\Strategies\DatabaseMemoryStrategy;
 
 describe('MemoryStrategyFactory', function () {
     describe('constructor and basic functionality', function () {

@@ -23,6 +23,16 @@ abstract class AgentToolPlugin extends PluginBase implements AgentToolPluginInte
     }
 
     /**
+     * Define the tool properties.
+     */
+    abstract protected function properties(): array;
+
+    /**
+     * Define the tool execution.
+     */
+    abstract protected function execute(array $arguments): mixed;
+
+    /**
      * {@inheritDoc}
      */
     public function definition(): Tool
@@ -32,14 +42,4 @@ abstract class AgentToolPlugin extends PluginBase implements AgentToolPluginInte
                 return $this->execute($arguments);
             })->withProperties($this->properties());
     }
-
-    /**
-     * Define the tool properties.
-     */
-    abstract protected function properties(): array;
-
-    /**
-     * Define the tool execution.
-     */
-    abstract protected function execute(array $arguments): mixed;
 }

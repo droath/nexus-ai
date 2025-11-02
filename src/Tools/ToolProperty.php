@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Tools;
 
+use RuntimeException;
 use Illuminate\Support\Str;
 
 /**
@@ -35,7 +36,7 @@ final class ToolProperty
     public function withEnums(array $enum): self
     {
         if ($this->type !== 'string') {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'Enum can only be used with string types.'
             );
         }

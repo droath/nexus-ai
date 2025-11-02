@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Resources;
 
-use Droath\NextusAi\Drivers\Contracts\DriverInterface;
+use JsonException;
 use Droath\NextusAi\Drivers\Perplexity;
-use Droath\NextusAi\Resources\Concerns\WithMessages;
-use Droath\NextusAi\Resources\Concerns\WithResponseFormat;
-use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
-use Droath\NextusAi\Resources\Contracts\HasMessagesInterface;
-use Droath\NextusAi\Resources\Contracts\HasResponseFormatInterface;
-use Droath\NextusAi\Responses\NextusAiResponseMessage;
 use Psr\Http\Message\ResponseInterface;
 use SoftCreatR\PerplexityAI\PerplexityAI;
+use Droath\NextusAi\Resources\Concerns\WithMessages;
+use Droath\NextusAi\Drivers\Contracts\DriverInterface;
+use Droath\NextusAi\Responses\NextusAiResponseMessage;
+use Droath\NextusAi\Resources\Concerns\WithResponseFormat;
+use Droath\NextusAi\Resources\Contracts\HasMessagesInterface;
+use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
+use Droath\NextusAi\Resources\Contracts\HasResponseFormatInterface;
 
 /**
  * Define the Perplexity chat resource.
@@ -21,7 +22,7 @@ use SoftCreatR\PerplexityAI\PerplexityAI;
 class PerplexityChatResource extends ResourceBase implements ChatResourceInterface, HasMessagesInterface, HasResponseFormatInterface
 {
     use WithMessages;
-    use withResponseFormat;
+    use WithResponseFormat;
 
     protected string $model = Perplexity::DEFAULT_MODEL;
 
@@ -106,7 +107,7 @@ class PerplexityChatResource extends ResourceBase implements ChatResourceInterfa
                 512,
                 JSON_THROW_ON_ERROR
             );
-        } catch (\JsonException) {
+        } catch (JsonException) {
             return [];
         }
     }

@@ -25,7 +25,7 @@ interface AgentCoordinatorInterface
     /**
      * Add multiple agents to the coordinator.
      *
-     * @param \Droath\NextusAi\Agents\Contracts\AgentInterface[] $agents
+     * @param AgentInterface[] $agents
      *
      * @return $this
      */

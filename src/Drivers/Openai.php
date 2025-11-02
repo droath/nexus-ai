@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Drivers;
 
+use JsonException;
 use Illuminate\Support\Str;
 use OpenAI\Testing\ClientFake;
 use Droath\NextusAi\Tools\Tool;
@@ -11,13 +12,13 @@ use OpenAI\Contracts\ClientContract;
 use Droath\NextusAi\Tools\ToolProperty;
 use Droath\NextusAi\Resources\OpenaiChatResource;
 use Droath\NextusAi\Resources\OpenaiEmbeddingResource;
-use Droath\NextusAi\Resources\OpenaiStructuredResource;
 use Droath\NextusAi\Drivers\Contracts\HasChatInterface;
+use Droath\NextusAi\Resources\OpenaiStructuredResource;
 use Droath\NextusAi\Drivers\Contracts\HasEmbeddingInterface;
 use Droath\NextusAi\Drivers\Contracts\HasStructuredInterface;
 use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
-use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
 use Droath\NextusAi\Resources\Contracts\EmbeddingsResourceInterface;
+use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
 
 /**
  * Define the OpenAI driver for the Nextus AI LLM client.
@@ -113,7 +114,7 @@ class Openai extends NextusAiDriver implements HasChatInterface, HasEmbeddingInt
                         ];
                     }
                 }
-            } catch (\JsonException) {
+            } catch (JsonException) {
                 return [];
             }
 
@@ -123,21 +124,6 @@ class Openai extends NextusAiDriver implements HasChatInterface, HasEmbeddingInt
         }
 
         return $content;
-    }
-
-    protected static function decodeBase64DataUri(string $uri): ?string
-    {
-        preg_match('/^data:([^;]+);base64,(.+)$/i', $uri, $matches);
-
-        array_shift($matches);
-
-        if (! empty($matches)) {
-            [$mimeType, $data] = $matches;
-
-            return base64_decode($data);
-        }
-
-        return null;
     }
 
     public function client(): ?ClientContract
@@ -178,5 +164,20 @@ class Openai extends NextusAiDriver implements HasChatInterface, HasEmbeddingInt
             $this->client->embeddings(),
             $this
         );
+    }
+
+    protected static function decodeBase64DataUri(string $uri): ?string
+    {
+        preg_match('/^data:([^;]+);base64,(.+)$/i', $uri, $matches);
+
+        array_shift($matches);
+
+        if (! empty($matches)) {
+            [$mimeType, $data] = $matches;
+
+            return base64_decode($data);
+        }
+
+        return null;
     }
 }

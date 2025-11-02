@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Attributes;
 
+use Attribute;
 use Droath\PluginManager\Attributes\PluginMetadata;
 
-#[\Attribute(\Attribute::TARGET_CLASS)]
+#[Attribute(Attribute::TARGET_CLASS)]
 class AgentToolPluginMetadata extends PluginMetadata
 {
     /**

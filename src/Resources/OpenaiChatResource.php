@@ -4,26 +4,29 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Resources;
 
+use Exception;
+use JsonException;
+use RuntimeException;
 use Illuminate\Support\Arr;
 use Droath\NextusAi\Tools\Tool;
-use Illuminate\Support\Facades\Log;
-use OpenAI\Responses\StreamResponse;
 use Droath\NextusAi\Drivers\Openai;
 use Droath\NextusAi\Enums\LlmRoles;
+use Illuminate\Support\Facades\Log;
+use OpenAI\Responses\StreamResponse;
 use Droath\NextusAi\Tools\ToolProperty;
 use OpenAI\Responses\Chat\CreateResponse;
 use OpenAI\Contracts\Resources\ChatContract;
 use OpenAI\Responses\Chat\CreateResponseChoice;
-use OpenAI\Responses\Chat\CreateResponseToolCall;
-use OpenAI\Responses\Chat\CreateStreamedResponse;
 use Droath\NextusAi\Resources\Concerns\WithModel;
 use Droath\NextusAi\Resources\Concerns\WithTools;
+use OpenAI\Responses\Chat\CreateResponseToolCall;
+use OpenAI\Responses\Chat\CreateStreamedResponse;
 use Droath\NextusAi\Drivers\Concerns\HasStreaming;
 use Droath\NextusAi\Resources\Concerns\WithMessages;
-use OpenAI\Responses\Chat\CreateStreamedResponseChoice;
 use Droath\NextusAi\Drivers\Contracts\DriverInterface;
-use OpenAI\Responses\Chat\CreateStreamedResponseToolCall;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
+use OpenAI\Responses\Chat\CreateStreamedResponseChoice;
+use OpenAI\Responses\Chat\CreateStreamedResponseToolCall;
 use Droath\NextusAi\Resources\Concerns\WithResponseFormat;
 use Droath\NextusAi\Resources\Contracts\HasToolsInterface;
 use Droath\NextusAi\Resources\Contracts\HasDriverInterface;
@@ -38,18 +41,30 @@ use Droath\NextusAi\Resources\Contracts\HasToolTransformerInterface;
  */
 class OpenaiChatResource extends ResourceBase implements ChatResourceInterface, HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface, HasToolTransformerInterface
 {
-    protected string $model = Openai::DEFAULT_MODEL;
-
     use HasStreaming;
     use WithMessages;
     use WithModel;
     use WithResponseFormat;
     use WithTools;
 
+    protected string $model = Openai::DEFAULT_MODEL;
+
     public function __construct(
         protected ChatContract $resource,
         protected DriverInterface $driver
     ) {}
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __invoke(): ?NextusAiResponseMessage
+    {
+        $parameters = $this->resourceParameters();
+
+        return $this->handleResponse(
+            $this->createResourceResponse($parameters)
+        );
+    }
 
     /**
      * {@inheritDoc}
@@ -98,18 +113,6 @@ class OpenaiChatResource extends ResourceBase implements ChatResourceInterface, 
     public function driver(): DriverInterface
     {
         return $this->driver;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function __invoke(): ?NextusAiResponseMessage
-    {
-        $parameters = $this->resourceParameters();
-
-        return $this->handleResponse(
-            $this->createResourceResponse($parameters)
-        );
     }
 
     /**
@@ -218,7 +221,7 @@ class OpenaiChatResource extends ResourceBase implements ChatResourceInterface, 
     /**
      * Invoke the chat tool from the response.
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function invokeTool(
         CreateResponseToolCall|CreateStreamedResponseToolCall $toolCall
@@ -243,7 +246,7 @@ class OpenaiChatResource extends ResourceBase implements ChatResourceInterface, 
     /**
      * Handle the chat tool calling.
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function handleToolCall(
         CreateResponseChoice|CreateStreamedResponseChoice $choice
@@ -280,9 +283,9 @@ class OpenaiChatResource extends ResourceBase implements ChatResourceInterface, 
             return match (true) {
                 $response instanceof StreamResponse => $this->handleStream($response),
                 $response instanceof CreateResponse => $this->handleSynchronous($response),
-                default => throw new \RuntimeException('Unexpected response type')
+                default => throw new RuntimeException('Unexpected response type')
             };
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Log::error($exception->getMessage());
 
             return null;
@@ -292,7 +295,7 @@ class OpenaiChatResource extends ResourceBase implements ChatResourceInterface, 
     /**
      * Handle the chat synchronous process.
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function handleSynchronous(
         CreateResponse $response
@@ -348,7 +351,7 @@ class OpenaiChatResource extends ResourceBase implements ChatResourceInterface, 
     /**
      * Handle the chat stream process.
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function handleStream(
         StreamResponse $stream,
@@ -356,7 +359,7 @@ class OpenaiChatResource extends ResourceBase implements ChatResourceInterface, 
         $streamContent = null;
         $streamToolCalls = [];
 
-        /** @var \OpenAI\Responses\Chat\CreateStreamedResponse $response */
+        /** @var CreateStreamedResponse $response */
         foreach ($stream as $response) {
             $finishReason = $response->choices[0]->finishReason;
 

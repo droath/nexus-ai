@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use Droath\NextusAi\NextusAiClient;
+use Droath\NextusAi\Tools\Tool;
 use Droath\NextusAi\Drivers\Claude;
-use Droath\NextusAi\Drivers\Enums\LlmProvider;
+use Droath\NextusAi\NextusAiClient;
+use Droath\NextusAi\Tools\ToolProperty;
 use Droath\NextusAi\Messages\UserMessage;
 use Droath\NextusAi\Messages\SystemMessage;
-use Droath\NextusAi\Tools\Tool;
-use Droath\NextusAi\Tools\ToolProperty;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
 
 /**

@@ -22,7 +22,7 @@ interface AgentWorkerPluginInterface extends PluginInterface
      * @param array $tools
      *   An array of tools to send to the agent.
      *
-     * @return array|\Droath\NextusAi\Agents\ValueObject\AgentCoordinatorResponse
+     * @return array|AgentCoordinatorResponse
      *   An array of the agent responses.
      */
     public function respond(

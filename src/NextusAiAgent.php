@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi;
 
-use Droath\NextusAi\Plugins\AgentWorkerPluginManager;
+use Throwable;
 use Illuminate\Support\Facades\Log;
+use Droath\NextusAi\Plugins\AgentWorkerPluginManager;
 use Droath\NextusAi\Plugins\Contracts\AgentWorkerPluginInterface;
 
 class NextusAiAgent
@@ -23,7 +24,7 @@ class NextusAiAgent
                     is_array($message) ? $message : [$message]
                 );
             }
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             Log::error($exception->getMessage());
         }
 

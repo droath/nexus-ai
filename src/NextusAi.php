@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Droath\NextusAi;
 
+use Closure;
+use RuntimeException;
+use Droath\NextusAi\Testing\NextusAiFake;
+use Droath\NextusAi\Facades\NextusAiClient;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
 use Droath\NextusAi\Drivers\Contracts\HasChatInterface;
 use Droath\NextusAi\Drivers\Contracts\HasEmbeddingInterface;
 use Droath\NextusAi\Drivers\Contracts\HasStructuredInterface;
-use Droath\NextusAi\Drivers\Enums\LlmProvider;
-use Droath\NextusAi\Facades\NextusAiClient;
 use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
 use Droath\NextusAi\Resources\Contracts\EmbeddingsResourceInterface;
 use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
-use Droath\NextusAi\Testing\NextusAiFake;
 
 /**
  * Define the Nextus AI class.
@@ -18,8 +22,8 @@ use Droath\NextusAi\Testing\NextusAiFake;
 class NextusAi
 {
     public function fake(
-        ?\Closure $responseCallback = null,
-        ?\Closure $resourceCallback = null
+        ?Closure $responseCallback = null,
+        ?Closure $resourceCallback = null
     ): NextusAiFake {
         return new NextusAiFake($responseCallback, $resourceCallback);
     }
@@ -29,11 +33,11 @@ class NextusAi
      */
     public function chat(LlmProvider $provider): ChatResourceInterface
     {
-        /** @var \Droath\NextusAi\Drivers\Contracts\DriverInterface $driver */
+        /** @var Drivers\Contracts\DriverInterface $driver */
         $driver = NextusAiClient::driver($provider->value);
 
         if (! $driver instanceof HasChatInterface) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'The driver does not support the chat resource.'
             );
         }
@@ -46,7 +50,7 @@ class NextusAi
         $driver = NextusAiClient::driver($provider->value);
 
         if (! $driver instanceof HasStructuredInterface) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'The driver does not support the structured resource.'
             );
         }
@@ -59,11 +63,11 @@ class NextusAi
      */
     public function embeddings(LlmProvider $provider): EmbeddingsResourceInterface
     {
-        /** @var \Droath\NextusAi\Drivers\Contracts\DriverInterface $driver */
+        /** @var Drivers\Contracts\DriverInterface $driver */
         $driver = NextusAiClient::driver($provider->value);
 
         if (! $driver instanceof HasEmbeddingInterface) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'The driver does not support the embeddings resource.'
             );
         }

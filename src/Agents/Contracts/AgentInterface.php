@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Agents\Contracts;
 
+use Closure;
 use Droath\NextusAi\Tools\Tool;
 use Droath\NextusAi\Messages\MessageBase;
 use Droath\NextusAi\Messages\SystemMessage;
@@ -15,6 +16,14 @@ use Droath\NextusAi\Resources\Contracts\ResourceInterface;
  */
 interface AgentInterface
 {
+    /**
+     * Invoke the agent response used in sequential strategy executor.
+     */
+    public function __invoke(
+        NextusAiResponseMessage $response,
+        Closure $next
+    ): NextusAiResponseMessage|null|array;
+
     /**
      * Create the agent instance.
      */
@@ -47,14 +56,6 @@ interface AgentInterface
      * @return $this
      */
     public function setDescription(string $description): static;
-
-    /**
-     * Invoke the agent response used in sequential strategy executor.
-     */
-    public function __invoke(
-        NextusAiResponseMessage $response,
-        \Closure $next
-    ): NextusAiResponseMessage|null|array;
 
     /**
      * Set the agent modal.
@@ -141,7 +142,7 @@ interface AgentInterface
      *
      * @return $this
      */
-    public function transformResponseUsing(\Closure $handler): static;
+    public function transformResponseUsing(Closure $handler): static;
 
     /**
      * Run the agent implementation.

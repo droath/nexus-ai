@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Memory;
 
+use InvalidArgumentException;
 use Droath\NextusAi\Memory\Strategies\NullMemoryStrategy;
 use Droath\NextusAi\Memory\Strategies\SessionMemoryStrategy;
-use Droath\NextusAi\Memory\Strategies\DatabaseMemoryStrategy;
 use Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface;
+use Droath\NextusAi\Memory\Strategies\DatabaseMemoryStrategy;
 
 /**
  * Factory for creating memory strategy instances.
@@ -36,7 +37,7 @@ class MemoryStrategyFactory
     /**
      * Creates and returns an instance of the appropriate memory strategy.
      *
-     * @return \Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface
+     * @return MemoryStrategyInterface
      *   The instance of the memory strategy.
      */
     public function createInstance(): MemoryStrategyInterface
@@ -44,14 +45,14 @@ class MemoryStrategyFactory
         $strategyType = $this->definition->getType();
 
         if (! isset(self::STRATEGY_CLASSES[$strategyType])) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Unknown memory strategy: $strategyType"
             );
         }
         $classname = self::STRATEGY_CLASSES[$strategyType];
 
         if (! class_exists($classname)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Invalid memory instance: $classname"
             );
         }

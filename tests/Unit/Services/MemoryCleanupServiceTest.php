@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Droath\NextusAi\Services\MemoryCleanupService;
-use Droath\NextusAi\Models\AgentMemory;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config;
+use Droath\NextusAi\Models\AgentMemory;
+use Droath\NextusAi\Services\MemoryCleanupService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 

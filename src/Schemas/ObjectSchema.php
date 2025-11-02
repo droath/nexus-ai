@@ -30,7 +30,7 @@ class ObjectSchema implements Arrayable
      * @return $this
      */
     public function addProperty(
-        ObjectSchema|BaseSchema $property
+        self|BaseSchema $property
     ): self {
         $this->properties[] = $property;
 

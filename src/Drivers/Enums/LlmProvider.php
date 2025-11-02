@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Droath\NextusAi\Drivers\Enums;
 
 enum LlmProvider: string

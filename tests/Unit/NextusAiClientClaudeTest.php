@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Droath\NextusAi\NextusAiClient;
 use Droath\NextusAi\Drivers\Claude;
-use Droath\NextusAi\Drivers\Enums\LlmProvider;
+use Droath\NextusAi\NextusAiClient;
 use Anthropic\Contracts\ClientContract;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
 
 describe('NextusAiClient Claude Integration', function () {
     beforeEach(function () {

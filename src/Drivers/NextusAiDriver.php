@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Drivers;
 
-use Droath\NextusAi\Drivers\Contracts\DriverInterface;
 use Droath\NextusAi\Tools\Tool;
+use Droath\NextusAi\Drivers\Contracts\DriverInterface;
 
 abstract class NextusAiDriver implements DriverInterface
 {

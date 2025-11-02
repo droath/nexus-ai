@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Droath\NextusAi\Memory\Strategies\SessionMemoryStrategy;
-use Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface;
 use Illuminate\Session\Store;
 use Illuminate\Session\ArraySessionHandler;
+use Droath\NextusAi\Memory\Strategies\SessionMemoryStrategy;
+use Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface;
 
 describe('SessionMemoryStrategy', function () {
     beforeEach(function () {

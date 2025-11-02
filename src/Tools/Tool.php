@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Tools;
 
-use Illuminate\Contracts\Support\Arrayable;
+use Closure;
+use RuntimeException;
 use Illuminate\Support\Str;
+use Illuminate\Contracts\Support\Arrayable;
 
 /**
  * Define the tool creation class.
@@ -14,23 +16,18 @@ class Tool implements Arrayable
 {
     protected bool $strict = false;
 
-    protected ?\Closure $function = null;
+    protected ?Closure $function = null;
 
     protected ?string $description = null;
 
     /**
-     * @var \Droath\NextusAi\Tools\ToolProperty[]
+     * @var ToolProperty[]
      */
     protected array $properties = [];
 
     protected function __construct(
         public readonly string $name,
     ) {}
-
-    public static function make(string $name): self
-    {
-        return new self(Str::snake($name));
-    }
 
     /**
      * @param mixed ...$args
@@ -40,16 +37,21 @@ class Tool implements Arrayable
         $function = $this->function;
 
         if (! isset($function)) {
-            throw new \RuntimeException('Tool function is not defined.');
+            throw new RuntimeException('Tool function is not defined.');
         }
 
         return $function($args);
     }
 
+    public static function make(string $name): self
+    {
+        return new self(Str::snake($name));
+    }
+
     /**
      * @return $this
      */
-    public function using(\Closure $function): self
+    public function using(Closure $function): self
     {
         $this->function = $function;
 
@@ -77,7 +79,7 @@ class Tool implements Arrayable
     }
 
     /**
-     * @param \Droath\NextusAi\Tools\ToolProperty[] $properties
+     * @param ToolProperty[] $properties
      *
      * @return $this
      */

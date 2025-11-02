@@ -4,26 +4,28 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Testing\Resources;
 
-use Droath\NextusAi\Drivers\Concerns\HasStreaming;
-use Droath\NextusAi\Drivers\Contracts\DriverInterface;
-use Droath\NextusAi\Drivers\Contracts\HasStreamingInterface;
-use Droath\NextusAi\Drivers\Enums\LlmProvider;
+use Closure;
+use RuntimeException;
+use OpenAI\Testing\ClientFake;
+use Droath\NextusAi\Tools\Tool;
 use Droath\NextusAi\Drivers\Openai;
-use Droath\NextusAi\Resources\Concerns\WithMessages;
+use Droath\NextusAi\Resources\ResourceBase;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
 use Droath\NextusAi\Resources\Concerns\WithModel;
-use Droath\NextusAi\Resources\Concerns\WithResponseFormat;
 use Droath\NextusAi\Resources\Concerns\WithTools;
-use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
-use Droath\NextusAi\Resources\Contracts\HasDriverInterface;
-use Droath\NextusAi\Resources\Contracts\HasMessagesInterface;
-use Droath\NextusAi\Resources\Contracts\HasResponseFormatInterface;
+use Droath\NextusAi\Drivers\Concerns\HasStreaming;
+use Droath\NextusAi\Resources\Concerns\WithMessages;
+use Droath\NextusAi\Drivers\Contracts\DriverInterface;
+use Droath\NextusAi\Responses\NextusAiResponseMessage;
+use Droath\NextusAi\Resources\Concerns\WithResponseFormat;
 use Droath\NextusAi\Resources\Contracts\HasToolsInterface;
+use Droath\NextusAi\Resources\Contracts\HasDriverInterface;
+use Droath\NextusAi\Drivers\Contracts\HasStreamingInterface;
+use Droath\NextusAi\Resources\Contracts\HasMessagesInterface;
+use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
+use Droath\NextusAi\Resources\Contracts\HasResponseFormatInterface;
 use Droath\NextusAi\Resources\Contracts\HasToolTransformerInterface;
 use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
-use Droath\NextusAi\Resources\ResourceBase;
-use Droath\NextusAi\Responses\NextusAiResponseMessage;
-use Droath\NextusAi\Tools\Tool;
-use OpenAI\Testing\ClientFake;
 
 class FakeResource extends ResourceBase implements ChatResourceInterface, HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface, HasToolTransformerInterface, StructuredResourceInterface
 {
@@ -40,16 +42,8 @@ class FakeResource extends ResourceBase implements ChatResourceInterface, HasDri
 
     public function __construct(
         protected LlmProvider $provider,
-        protected ?\Closure $responseHandler = null,
+        protected ?Closure $responseHandler = null,
     ) {}
-
-    /**
-     * {@inheritDoc}
-     */
-    public static function transformTool(Tool $tool): array
-    {
-        return [];
-    }
 
     /**
      * {@inheritDoc}
@@ -68,6 +62,14 @@ class FakeResource extends ResourceBase implements ChatResourceInterface, HasDri
     /**
      * {@inheritDoc}
      */
+    public static function transformTool(Tool $tool): array
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function driver(): DriverInterface
     {
         return match ($this->provider) {
@@ -75,7 +77,7 @@ class FakeResource extends ResourceBase implements ChatResourceInterface, HasDri
                 /** @phpstan-ignore-next-line Fake resource for testing */
                 new ClientFake([$this])
             ),
-            LlmProvider::CLAUDE, LlmProvider::PERPLEXITY => throw new \RuntimeException(
+            LlmProvider::CLAUDE, LlmProvider::PERPLEXITY => throw new RuntimeException(
                 "Fake driver for {$this->provider->value} not implemented yet"
             ),
         };

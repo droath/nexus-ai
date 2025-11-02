@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
+use Illuminate\Session\Store;
 use Droath\NextusAi\Agents\Agent;
-use Droath\NextusAi\Agents\Memory\SessionMemory;
+use Droath\NextusAi\Models\AgentMemory;
+use Illuminate\Session\ArraySessionHandler;
 use Droath\NextusAi\Memory\MemoryDefinition;
+use Droath\NextusAi\Agents\Memory\SessionMemory;
 use Droath\NextusAi\Memory\MemoryStrategyFactory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Droath\NextusAi\Memory\Strategies\SessionMemoryStrategy;
 use Droath\NextusAi\Memory\Strategies\DatabaseMemoryStrategy;
-use Droath\NextusAi\Models\AgentMemory;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Session\Store;
-use Illuminate\Session\ArraySessionHandler;
 
 uses(RefreshDatabase::class);
 
@@ -48,7 +48,7 @@ describe('Agent Memory Integration', function () {
             }
 
             // Create a wrapper that implements AgentMemoryInterface
-            $memoryWrapper = new class($strategy) implements \Droath\NextusAi\Agents\Contracts\AgentMemoryInterface
+            $memoryWrapper = new class($strategy) implements Droath\NextusAi\Agents\Contracts\AgentMemoryInterface
             {
                 private $strategy;
 
@@ -101,7 +101,7 @@ describe('Agent Memory Integration', function () {
             expect($strategy)->toBeInstanceOf(DatabaseMemoryStrategy::class);
 
             // Create a wrapper that implements AgentMemoryInterface
-            $memoryWrapper = new class($strategy) implements \Droath\NextusAi\Agents\Contracts\AgentMemoryInterface
+            $memoryWrapper = new class($strategy) implements Droath\NextusAi\Agents\Contracts\AgentMemoryInterface
             {
                 private $strategy;
 
@@ -159,7 +159,7 @@ describe('Agent Memory Integration', function () {
             $strategy = $factory->createInstance();
 
             // Create memory wrapper
-            $memoryWrapper = new class($strategy) implements \Droath\NextusAi\Agents\Contracts\AgentMemoryInterface
+            $memoryWrapper = new class($strategy) implements Droath\NextusAi\Agents\Contracts\AgentMemoryInterface
             {
                 private $strategy;
 

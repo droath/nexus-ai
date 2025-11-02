@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Testing;
 
-use Droath\NextusAi\Drivers\Enums\LlmProvider;
-use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
-use Droath\NextusAi\Resources\Contracts\ResourceInterface;
-use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
-use Droath\NextusAi\Testing\Resources\FakeResource;
-use Illuminate\Support\Testing\Fakes\Fake;
+use Closure;
 use PHPUnit\Framework\Assert;
+use Illuminate\Support\Testing\Fakes\Fake;
 use PHPUnit\Framework\AssertionFailedError;
 
 use function PHPUnit\Framework\assertEquals;
+
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
+use Droath\NextusAi\Testing\Resources\FakeResource;
+use Droath\NextusAi\Resources\Contracts\ResourceInterface;
+use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
+use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
 
 class NextusAiFake implements Fake
 {
@@ -22,8 +24,8 @@ class NextusAiFake implements Fake
     protected ?ResourceInterface $resource = null;
 
     public function __construct(
-        protected ?\Closure $responseCallback = null,
-        protected ?\Closure $resourceCallback = null,
+        protected ?Closure $responseCallback = null,
+        protected ?Closure $resourceCallback = null,
     ) {}
 
     /**
@@ -57,7 +59,7 @@ class NextusAiFake implements Fake
     /**
      * Assert the resource is as expected.
      */
-    public function assertResource(?\Closure $expected = null): void
+    public function assertResource(?Closure $expected = null): void
     {
         if ($this->resource === null) {
             throw new AssertionFailedError(
@@ -76,7 +78,7 @@ class NextusAiFake implements Fake
     /**
      * Assert the resource provider is as expected.
      */
-    public function assertProvider(\Closure|LlmProvider $expected): void
+    public function assertProvider(Closure|LlmProvider $expected): void
     {
         if ($this->provider === null) {
             throw new AssertionFailedError(

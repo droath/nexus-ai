@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Drivers\Contracts;
 
+use Closure;
+
 interface HasStreamingInterface
 {
     /**
@@ -13,7 +15,7 @@ interface HasStreamingInterface
      * @return $this
      */
     public function usingStream(
-        \Closure $streamProcess,
-        ?\Closure $streamFinished = null
+        Closure $streamProcess,
+        ?Closure $streamFinished = null
     ): static;
 }

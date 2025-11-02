@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-use Anthropic\Testing\ClientFake;
-use Anthropic\Responses\Messages\CreateResponse;
-use Droath\NextusAi\Drivers\Claude;
-use Droath\NextusAi\Resources\ClaudeChatResource;
-use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
-use Droath\NextusAi\Resources\Contracts\HasDriverInterface;
-use Droath\NextusAi\Resources\Contracts\HasMessagesInterface;
-use Droath\NextusAi\Resources\Contracts\HasResponseFormatInterface;
-use Droath\NextusAi\Resources\Contracts\HasToolsInterface;
-use Droath\NextusAi\Drivers\Contracts\HasStreamingInterface;
-use Droath\NextusAi\Messages\UserMessage;
 use Droath\NextusAi\Tools\Tool;
+use Anthropic\Testing\ClientFake;
+use Droath\NextusAi\Drivers\Claude;
 use Droath\NextusAi\Tools\ToolProperty;
+use Droath\NextusAi\Messages\UserMessage;
+use Anthropic\Responses\Messages\CreateResponse;
+use Droath\NextusAi\Resources\ClaudeChatResource;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
+use Droath\NextusAi\Resources\Contracts\HasToolsInterface;
+use Droath\NextusAi\Resources\Contracts\HasDriverInterface;
+use Droath\NextusAi\Drivers\Contracts\HasStreamingInterface;
+use Droath\NextusAi\Resources\Contracts\HasMessagesInterface;
+use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
+use Droath\NextusAi\Resources\Contracts\HasResponseFormatInterface;
 
 describe('ClaudeChatResource', function () {
     test('can be instantiated', function () {

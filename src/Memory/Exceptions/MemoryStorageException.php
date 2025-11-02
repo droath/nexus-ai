@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Memory\Exceptions;
 
+use Throwable;
+
 /**
  * Exception thrown when memory storage operations fail.
  *
@@ -15,7 +17,7 @@ class MemoryStorageException extends MemoryException
     /**
      * Create an exception for a failed set operation.
      */
-    public static function setFailed(string $key, string $strategy = '', ?\Throwable $previous = null): static
+    public static function setFailed(string $key, string $strategy = '', ?Throwable $previous = null): static
     {
         $message = "Failed to set memory key: {$key}";
         if ($strategy) {
@@ -28,7 +30,7 @@ class MemoryStorageException extends MemoryException
     /**
      * Create an exception for a failed get operation.
      */
-    public static function getFailed(string $key, string $strategy = '', ?\Throwable $previous = null): static
+    public static function getFailed(string $key, string $strategy = '', ?Throwable $previous = null): static
     {
         $message = "Failed to get memory key: {$key}";
         if ($strategy) {
@@ -41,7 +43,7 @@ class MemoryStorageException extends MemoryException
     /**
      * Create an exception for a failed forget operation.
      */
-    public static function forgetFailed(string $key, string $strategy = '', ?\Throwable $previous = null): static
+    public static function forgetFailed(string $key, string $strategy = '', ?Throwable $previous = null): static
     {
         $message = "Failed to forget memory key: {$key}";
         if ($strategy) {
@@ -54,7 +56,7 @@ class MemoryStorageException extends MemoryException
     /**
      * Create an exception for a failed flush operation.
      */
-    public static function flushFailed(string $strategy = '', ?\Throwable $previous = null): static
+    public static function flushFailed(string $strategy = '', ?Throwable $previous = null): static
     {
         $message = 'Failed to flush memory';
         if ($strategy) {

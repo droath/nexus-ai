@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Attributes;
 
+use Attribute;
 use Droath\NextusAi\Drivers\Enums\LlmProvider;
 use Droath\PluginManager\Attributes\PluginMetadata;
 
-#[\Attribute(\Attribute::TARGET_CLASS)]
+#[Attribute(Attribute::TARGET_CLASS)]
 class AgentWorkerPluginMetadata extends PluginMetadata
 {
     /**

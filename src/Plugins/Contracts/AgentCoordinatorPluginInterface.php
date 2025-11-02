@@ -15,7 +15,7 @@ interface AgentCoordinatorPluginInterface extends PluginInterface
     /**
      * The responses from the agent coordinator.
      *
-     * @return \Droath\NextusAi\Agents\ValueObject\AgentCoordinatorResponse
+     * @return AgentCoordinatorResponse
      *    An array of the agent responses.
      */
     public function respond(

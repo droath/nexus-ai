@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Plugins\AgentCoordinator;
 
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Droath\PluginManager\Plugin\PluginBase;
 use Droath\NextusAi\Agents\AgentCoordinator;
@@ -41,7 +42,7 @@ abstract class AgentCoordinatorPlugin extends PluginBase implements AgentCoordin
             Log::warning('No agents available for coordination', [
                 'plugin_id' => $this->getPluginId(),
             ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Log::error('Agent coordination failed', [
                 'error' => $exception->getMessage(),
                 'plugin_id' => $this->getPluginId(),
@@ -93,7 +94,7 @@ abstract class AgentCoordinatorPlugin extends PluginBase implements AgentCoordin
                     continue;
                 }
                 $agents[] = $pluginInstance->createInstance();
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 Log::error('Failed to load agent', [
                     'agent_id' => $agentId,
                     'error' => $exception->getMessage(),

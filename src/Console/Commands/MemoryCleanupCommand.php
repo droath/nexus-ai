@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Console\Commands;
 
-use Droath\NextusAi\Services\MemoryCleanupService;
 use Illuminate\Console\Command;
+use Droath\NextusAi\Services\MemoryCleanupService;
 
 /**
  * Console command for cleaning up expired memory entries.

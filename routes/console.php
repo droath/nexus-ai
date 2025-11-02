@@ -1,7 +1,9 @@
 <?php
 
-use Droath\NextusAi\Console\Commands\MemoryCleanupCommand;
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Schedule;
+use Droath\NextusAi\Console\Commands\MemoryCleanupCommand;
 
 /*
 |--------------------------------------------------------------------------

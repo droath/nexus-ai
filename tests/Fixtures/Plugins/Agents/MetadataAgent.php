@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Tests\Fixtures\Plugins\Agents;
 
-use Droath\NextusAi\Plugins\Agents\AgentPlugin;
 use Droath\NextusAi\Drivers\Enums\LlmProvider;
+use Droath\NextusAi\Plugins\Agents\AgentPlugin;
 use Droath\NextusAi\Attributes\AgentPluginMetadata;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
 

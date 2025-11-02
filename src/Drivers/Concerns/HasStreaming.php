@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Drivers\Concerns;
 
+use Closure;
+
 trait HasStreaming
 {
     protected bool $stream = false;
@@ -12,18 +14,18 @@ trait HasStreaming
 
     protected ?string $streamBuffer = null;
 
-    protected \Closure $streamProcess;
+    protected Closure $streamProcess;
 
-    protected \Closure $streamBufferProcess;
+    protected Closure $streamBufferProcess;
 
-    protected ?\Closure $streamFinished = null;
+    protected ?Closure $streamFinished = null;
 
     /**
      * @return $this
      */
     public function usingStream(
-        \Closure $streamProcess,
-        ?\Closure $streamFinished = null
+        Closure $streamProcess,
+        ?Closure $streamFinished = null
     ): static {
         $this->stream = true;
         $this->streamProcess = $streamProcess;
@@ -36,9 +38,9 @@ trait HasStreaming
      * @return $this
      */
     public function usingStreamBuffer(
-        \Closure $streamProcess,
-        \Closure $streamBufferProcess,
-        ?\Closure $streamFinished = null
+        Closure $streamProcess,
+        Closure $streamBufferProcess,
+        ?Closure $streamFinished = null
     ): static {
         $this->stream = true;
         $this->useStreamBuffer = true;

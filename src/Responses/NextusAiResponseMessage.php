@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Responses;
 
+use JsonException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -16,6 +17,12 @@ final readonly class NextusAiResponseMessage
         public ?string $message,
     ) {}
 
+    public function __toString(): string
+    {
+        return $this->message ?? '';
+
+    }
+
     public static function fromString(string $message): self
     {
         return new self($message);
@@ -27,7 +34,7 @@ final readonly class NextusAiResponseMessage
     }
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function toArray(): array
     {
@@ -46,11 +53,5 @@ final readonly class NextusAiResponseMessage
     public function containsJson(): bool
     {
         return Str::isJson($this->message);
-    }
-
-    public function __toString(): string
-    {
-        return $this->message ?? '';
-
     }
 }

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi;
 
-use Droath\NextusAi\Drivers\Enums\LlmProvider;
+use Anthropic;
+use GuzzleHttp\Client;
+use Illuminate\Support\Manager;
+use GuzzleHttp\Psr7\HttpFactory;
 use Droath\NextusAi\Drivers\Claude;
 use Droath\NextusAi\Drivers\Openai;
 use Droath\NextusAi\Drivers\Perplexity;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\HttpFactory;
-use Anthropic;
-use Illuminate\Support\Manager;
 use SoftCreatR\PerplexityAI\PerplexityAI;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
 
 /**
  * Define the Nextus AI client class for managing LLM provider connections.

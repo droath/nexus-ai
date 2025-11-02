@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 use OpenAI\Testing\ClientFake;
-use Illuminate\Support\Collection;
 use Droath\NextusAi\Agents\Agent;
+use Illuminate\Support\Collection;
 use Droath\NextusAi\Facades\NextusAi;
 use Droath\NextusAi\Agents\AgentCoordinator;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
 use Droath\NextusAi\Agents\Enums\AgentStrategy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Droath\NextusAi\Drivers\Enums\LlmProvider;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
 use Droath\NextusAi\Testing\Support\ResourceResponsesHelper;
 use Droath\NextusAi\Agents\ValueObject\AgentCoordinatorResponse;
@@ -41,7 +43,7 @@ test('parallel agent coordinator', closure: function () {
     NextusAi::fake(resourceCallback: function () use ($contentResponse, $metadataResponse, $coordinatorResponse) {
         $client = (new ClientFake([$contentResponse, $metadataResponse, $coordinatorResponse]));
 
-        return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
+        return (new Droath\NextusAi\Drivers\Openai($client))->structured();
     });
 
     $resource = NextusAi::structured(LlmProvider::OPENAI);
@@ -99,7 +101,7 @@ test('sequential agent coordinator', closure: function () {
     NextusAi::fake(resourceCallback: function () use ($contentResponse, $metadataResponse, $coordinatorResponse) {
         $client = (new ClientFake([$contentResponse, $metadataResponse, $coordinatorResponse]));
 
-        return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
+        return (new Droath\NextusAi\Drivers\Openai($client))->structured();
     });
 
     $resource = NextusAi::structured(LlmProvider::OPENAI);

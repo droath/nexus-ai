@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Droath\NextusAi\Tools\Tool;
 use Droath\NextusAi\Tools\ToolProperty;
 

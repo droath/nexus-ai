@@ -33,7 +33,7 @@ class AgentCoordinator implements AgentCoordinatorInterface
      *   The input user messages.
      * @param array $agents
      *   The agents on which to coordinate.
-     * @param \Droath\NextusAi\Agents\Enums\AgentStrategy $strategy
+     * @param AgentStrategy $strategy
      *   The agent coordinator strategy.
      */
     protected function __construct(

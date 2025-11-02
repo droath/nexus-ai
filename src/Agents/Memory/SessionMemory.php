@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Agents\Memory;
 
+use Throwable;
+
 /**
  * Backward-compatible session memory implementation.
  *
@@ -29,7 +31,7 @@ class SessionMemory extends BaseMemory
             session([$this->getSessionKey($key) => $value]);
 
             return true;
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return false;
         }
     }
@@ -41,7 +43,7 @@ class SessionMemory extends BaseMemory
     {
         try {
             return session($this->getSessionKey($key), $default);
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return $default;
         }
     }
@@ -53,7 +55,7 @@ class SessionMemory extends BaseMemory
     {
         try {
             return session()->has($this->getSessionKey($key));
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return false;
         }
     }
@@ -67,7 +69,7 @@ class SessionMemory extends BaseMemory
             session()->forget($this->getSessionKey($key));
 
             return true;
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return false;
         }
     }
@@ -88,7 +90,7 @@ class SessionMemory extends BaseMemory
             }
 
             return true;
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return false;
         }
     }

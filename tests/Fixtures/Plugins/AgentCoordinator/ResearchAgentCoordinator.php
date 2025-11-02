@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Tests\Fixtures\Plugins\AgentCoordinator;
 
-use Droath\NextusAi\Agents\Enums\AgentStrategy;
 use Droath\NextusAi\Drivers\Enums\LlmProvider;
+use Droath\NextusAi\Agents\Enums\AgentStrategy;
 use Droath\NextusAi\Attributes\AgentCoordinatorPluginMetadata;
 use Droath\NextusAi\Plugins\AgentCoordinator\AgentCoordinatorPlugin;
 

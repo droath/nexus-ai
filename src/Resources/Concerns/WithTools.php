@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Resources\Concerns;
 
-use Droath\NextusAi\Resources\Contracts\HasToolTransformerInterface;
 use Droath\NextusAi\Tools\Tool;
 use Illuminate\Support\Collection;
+use Droath\NextusAi\Resources\Contracts\HasToolTransformerInterface;
 
 trait WithTools
 {

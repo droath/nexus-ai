@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Messages;
 
-use Droath\NextusAi\Drivers\Contracts\DriverInterface;
 use Droath\NextusAi\Enums\LlmRoles;
 use Droath\NextusAi\Messages\Concerns\ViewSupport;
+use Droath\NextusAi\Drivers\Contracts\DriverInterface;
 use Droath\NextusAi\Messages\Contracts\MessageDriverAwareInterface;
 
 /**
@@ -28,7 +28,7 @@ final class UserMessage extends MessageBase implements MessageDriverAwareInterfa
     public static function make(
         string $content,
         null|string|MessageContext $context = null,
-    ): UserMessage {
+    ): self {
         return new self(
             $content,
             is_string($context)

@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
+use Illuminate\Session\Store;
 use Droath\NextusAi\Agents\Agent;
-use Droath\NextusAi\Agents\AgentCoordinator;
-use Droath\NextusAi\Agents\Enums\AgentStrategy;
-use Droath\NextusAi\Memory\MemoryDefinition;
-use Droath\NextusAi\Memory\MemoryStrategyFactory;
-use Droath\NextusAi\Memory\Strategies\SessionMemoryStrategy;
-use Droath\NextusAi\Memory\Strategies\DatabaseMemoryStrategy;
-use Droath\NextusAi\Memory\Strategies\NullMemoryStrategy;
 use Droath\NextusAi\Models\AgentMemory;
 use Droath\NextusAi\Services\MemoryManager;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Session\Store;
 use Illuminate\Session\ArraySessionHandler;
+use Droath\NextusAi\Agents\AgentCoordinator;
+use Droath\NextusAi\Memory\MemoryDefinition;
+use Droath\NextusAi\Agents\Enums\AgentStrategy;
+use Droath\NextusAi\Memory\MemoryStrategyFactory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Droath\NextusAi\Memory\Strategies\NullMemoryStrategy;
+use Droath\NextusAi\Memory\Strategies\SessionMemoryStrategy;
+use Droath\NextusAi\Memory\Strategies\DatabaseMemoryStrategy;
 
 uses(RefreshDatabase::class);
 
@@ -22,7 +22,7 @@ describe('Memory Strategies in Agent Workflows', function () {
     beforeEach(function () {
         // Helper to create memory wrapper for AgentMemoryInterface compatibility
         $this->createMemoryWrapper = function ($strategy) {
-            return new class($strategy) implements \Droath\NextusAi\Agents\Contracts\AgentMemoryInterface
+            return new class($strategy) implements Droath\NextusAi\Agents\Contracts\AgentMemoryInterface
             {
                 private $strategy;
 

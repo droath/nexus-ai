@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Droath\NextusAi\Plugins;
 
 use Droath\NextusAi\Attributes\AgentToolPluginMetadata;
-use Droath\NextusAi\Plugins\Contracts\AgentToolPluginInterface;
 use Droath\PluginManager\Discovery\NamespacePluginDiscovery;
+use Droath\NextusAi\Plugins\Contracts\AgentToolPluginInterface;
 
 class AgentToolPluginManager extends AgentDefaultPluginManager
 {

@@ -6,15 +6,20 @@ namespace Droath\NextusAi\Plugins\Agents;
 
 use Illuminate\Support\Str;
 use Droath\NextusAi\Agents\Agent;
-use Droath\PluginManager\Plugin\PluginBase;
 use Droath\NextusAi\Messages\SystemMessage;
-use Droath\NextusAi\Responses\NextusAiResponseMessage;
+use Droath\PluginManager\Plugin\PluginBase;
 use Droath\NextusAi\Plugins\Concerns\HasLlmResource;
+use Droath\NextusAi\Responses\NextusAiResponseMessage;
 use Droath\NextusAi\Plugins\Contracts\AgentPluginInterface;
 
 abstract class AgentPlugin extends PluginBase implements AgentPluginInterface
 {
     use HasLlmResource;
+
+    /**
+     * Define the agent system instruction.
+     */
+    abstract protected function systemInstruction(): SystemMessage|string|null;
 
     /**
      * {@inheritDoc}
@@ -54,11 +59,6 @@ abstract class AgentPlugin extends PluginBase implements AgentPluginInterface
 
         return $agent;
     }
-
-    /**
-     * Define the agent system instruction.
-     */
-    abstract protected function systemInstruction(): SystemMessage|string|null;
 
     /**
      * Define the agent-specific instruction.

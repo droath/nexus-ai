@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use Anthropic\Contracts\ClientContract;
+use Droath\NextusAi\Tools\Tool;
 use Anthropic\Testing\ClientFake;
 use Droath\NextusAi\Drivers\Claude;
+use Anthropic\Contracts\ClientContract;
+use Droath\NextusAi\Tools\ToolProperty;
 use Droath\NextusAi\Drivers\NextusAiDriver;
 use Droath\NextusAi\Drivers\Contracts\HasChatInterface;
 use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
-use Droath\NextusAi\Tools\Tool;
-use Droath\NextusAi\Tools\ToolProperty;
 
 describe('Claude Driver', function () {
     test('can be instantiated', function () {

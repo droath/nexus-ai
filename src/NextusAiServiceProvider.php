@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Droath\NextusAi;
 
-use Droath\NextusAi\Console\Commands\MemoryCleanupCommand;
-use Droath\NextusAi\Plugins\AgentWorkerPluginManager;
-use Droath\NextusAi\Services\MemoryCleanupService;
-use Droath\NextusAi\Services\MemoryManager;
 use Spatie\LaravelPackageTools\Package;
+use Droath\NextusAi\Services\MemoryManager;
+use Droath\NextusAi\Services\MemoryCleanupService;
+use Droath\NextusAi\Plugins\AgentWorkerPluginManager;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Droath\NextusAi\Console\Commands\MemoryCleanupCommand;
 
 class NextusAiServiceProvider extends PackageServiceProvider
 {

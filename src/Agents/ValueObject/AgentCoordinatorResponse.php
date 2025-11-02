@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Agents\ValueObject;
 
+use Closure;
 use Illuminate\Support\Collection;
 use Droath\NextusAi\Agents\Enums\AgentStrategy;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
@@ -43,7 +44,7 @@ readonly class AgentCoordinatorResponse
         return $this;
     }
 
-    public function assertAgentsUsing(\Closure $handler): self
+    public function assertAgentsUsing(Closure $handler): self
     {
         $response = $handler(
             collect($this->agents)
@@ -54,7 +55,7 @@ readonly class AgentCoordinatorResponse
         return $this;
     }
 
-    public function assertResourceUsing(\Closure $handler): self
+    public function assertResourceUsing(Closure $handler): self
     {
         $response = $handler(
             $this->resource

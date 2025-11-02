@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Memory\Strategies;
 
-use Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface;
-use Droath\NextusAi\Models\AgentMemory;
 use Carbon\Carbon;
 use Illuminate\Database\Connection;
+use Droath\NextusAi\Models\AgentMemory;
 use Illuminate\Database\QueryException;
+use Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface;
 
 /**
  * Database-based memory storage strategy.

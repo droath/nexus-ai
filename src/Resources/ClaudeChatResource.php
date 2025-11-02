@@ -4,28 +4,31 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Resources;
 
+use Throwable;
+use JsonException;
+use RuntimeException;
+use Droath\NextusAi\Tools\Tool;
+use Droath\NextusAi\Drivers\Claude;
+use Droath\NextusAi\Enums\LlmRoles;
+use Illuminate\Support\Facades\Log;
 use Anthropic\Contracts\ClientContract;
 use Anthropic\Responses\Messages\CreateResponse;
 use Anthropic\Responses\Messages\StreamResponse;
-use Droath\NextusAi\Drivers\Claude;
-use Anthropic\Responses\Messages\CreateResponseContent;
-use Droath\NextusAi\Drivers\Contracts\DriverInterface;
-use Droath\NextusAi\Enums\LlmRoles;
-use Droath\NextusAi\Tools\Tool;
-use Droath\NextusAi\Resources\Concerns\WithMessages;
 use Droath\NextusAi\Resources\Concerns\WithModel;
-use Anthropic\Responses\Messages\CreateStreamedResponse;
-use Droath\NextusAi\Resources\Concerns\WithResponseFormat;
 use Droath\NextusAi\Resources\Concerns\WithTools;
 use Droath\NextusAi\Drivers\Concerns\HasStreaming;
-use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
-use Droath\NextusAi\Resources\Contracts\HasDriverInterface;
-use Droath\NextusAi\Resources\Contracts\HasMessagesInterface;
-use Droath\NextusAi\Resources\Contracts\HasResponseFormatInterface;
-use Droath\NextusAi\Resources\Contracts\HasToolsInterface;
-use Droath\NextusAi\Drivers\Contracts\HasStreamingInterface;
+use Droath\NextusAi\Resources\Concerns\WithMessages;
+use Droath\NextusAi\Drivers\Contracts\DriverInterface;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
-use Illuminate\Support\Facades\Log;
+use Anthropic\Responses\Messages\CreateResponseContent;
+use Anthropic\Responses\Messages\CreateStreamedResponse;
+use Droath\NextusAi\Resources\Concerns\WithResponseFormat;
+use Droath\NextusAi\Resources\Contracts\HasToolsInterface;
+use Droath\NextusAi\Resources\Contracts\HasDriverInterface;
+use Droath\NextusAi\Drivers\Contracts\HasStreamingInterface;
+use Droath\NextusAi\Resources\Contracts\HasMessagesInterface;
+use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
+use Droath\NextusAi\Resources\Contracts\HasResponseFormatInterface;
 
 /**
  * Claude Chat Resource for handling conversations with Anthropic's Claude API.
@@ -100,9 +103,9 @@ class ClaudeChatResource extends ResourceBase implements ChatResourceInterface, 
             return match (true) {
                 $response instanceof StreamResponse => $this->handleStream($response),
                 $response instanceof CreateResponse => $this->handleSynchronous($response),
-                default => throw new \RuntimeException('Unexpected response type')
+                default => throw new RuntimeException('Unexpected response type')
             };
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             return $this->handleException($exception);
         }
     }
@@ -143,7 +146,7 @@ class ClaudeChatResource extends ResourceBase implements ChatResourceInterface, 
      *
      * @return NextusAiResponseMessage|null The final processed response
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function handleStream(
         StreamResponse $stream
@@ -472,12 +475,12 @@ class ClaudeChatResource extends ResourceBase implements ChatResourceInterface, 
      * Handle different types of exceptions from the Claude API with
      * appropriate logging.
      *
-     * @param \Throwable $exception The exception to handle
+     * @param Throwable $exception The exception to handle
      *
      * @return NextusAiResponseMessage|null Always returns null after logging
      */
     protected function handleException(
-        \Throwable $exception
+        Throwable $exception
     ): ?NextusAiResponseMessage {
         $message = $exception->getMessage();
         $code = $exception->getCode();

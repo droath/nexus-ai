@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Droath\NextusAi\Memory\Strategies\DatabaseMemoryStrategy;
-use Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface;
 use Droath\NextusAi\Agents\Contracts\AgentMemoryInterface;
+use Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface;
+use Droath\NextusAi\Memory\Strategies\DatabaseMemoryStrategy;
 
 describe('DatabaseMemoryStrategy', function () {
     beforeEach(function () {
@@ -167,7 +167,7 @@ describe('DatabaseMemoryStrategy', function () {
             ]);
 
             // Verify the strategy implements the interface correctly
-            expect($strategy)->toBeInstanceOf(\Droath\NextusAi\Memory\Contracts\MemoryStrategyInterface::class);
+            expect($strategy)->toBeInstanceOf(MemoryStrategyInterface::class);
 
             // Check that key methods exist and have the right signatures
             expect(method_exists($strategy, 'set'))->toBeTrue();

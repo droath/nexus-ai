@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-use Droath\NextusAi\Agents\Agent;
-use Droath\NextusAi\Agents\AgentCoordinator;
-use Droath\NextusAi\Agents\Enums\AgentStrategy;
-use Droath\NextusAi\Memory\MemoryDefinition;
-use Droath\NextusAi\Memory\MemoryStrategyFactory;
-use Droath\NextusAi\Memory\Strategies\SessionMemoryStrategy;
-use Droath\NextusAi\Models\AgentMemory;
-use Droath\NextusAi\Facades\NextusAi;
-use Droath\NextusAi\Drivers\Enums\LlmProvider;
-use Droath\NextusAi\Testing\Support\ResourceResponsesHelper;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Session\Store;
-use Illuminate\Session\ArraySessionHandler;
 use OpenAI\Testing\ClientFake;
+use Droath\NextusAi\Agents\Agent;
+use Droath\NextusAi\Facades\NextusAi;
+use Droath\NextusAi\Models\AgentMemory;
+use Illuminate\Session\ArraySessionHandler;
+use Droath\NextusAi\Agents\AgentCoordinator;
+use Droath\NextusAi\Memory\MemoryDefinition;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
+use Droath\NextusAi\Agents\Enums\AgentStrategy;
+use Droath\NextusAi\Memory\MemoryStrategyFactory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Droath\NextusAi\Memory\Strategies\SessionMemoryStrategy;
+use Droath\NextusAi\Testing\Support\ResourceResponsesHelper;
 
 uses(RefreshDatabase::class);
 uses(ResourceResponsesHelper::class);
@@ -24,7 +24,7 @@ describe('AgentCoordinator Memory Integration', function () {
     beforeEach(function () {
         // Helper function to create memory wrapper
         $this->createMemoryWrapper = function ($strategy) {
-            return new class($strategy) implements \Droath\NextusAi\Agents\Contracts\AgentMemoryInterface
+            return new class($strategy) implements Droath\NextusAi\Agents\Contracts\AgentMemoryInterface
             {
                 private $strategy;
 
@@ -93,7 +93,7 @@ describe('AgentCoordinator Memory Integration', function () {
             NextusAi::fake(resourceCallback: function () use ($response1, $response2, $coordinatorResponse) {
                 $client = new ClientFake([$response1, $response2, $coordinatorResponse]);
 
-                return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
+                return (new Droath\NextusAi\Drivers\Openai($client))->structured();
             });
 
             $resource = NextusAi::structured(LlmProvider::OPENAI);
@@ -145,7 +145,7 @@ describe('AgentCoordinator Memory Integration', function () {
             NextusAi::fake(resourceCallback: function () use ($response1, $response2, $coordinatorResponse) {
                 $client = new ClientFake([$response1, $response2, $coordinatorResponse]);
 
-                return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
+                return (new Droath\NextusAi\Drivers\Openai($client))->structured();
             });
 
             $resource = NextusAi::structured(LlmProvider::OPENAI);
@@ -205,14 +205,14 @@ describe('AgentCoordinator Memory Integration', function () {
             NextusAi::fake(resourceCallback: function () use ($response, $coordinatorResponse) {
                 $client = new ClientFake([$response, $coordinatorResponse]);
 
-                return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
+                return (new Droath\NextusAi\Drivers\Openai($client))->structured();
             });
 
             $resource = NextusAi::structured(LlmProvider::OPENAI);
             $result = $coordinator->run($resource);
 
             // Verify the coordinator executed successfully
-            expect($result)->toBeInstanceOf(\Droath\NextusAi\Agents\ValueObject\AgentCoordinatorResponse::class);
+            expect($result)->toBeInstanceOf(Droath\NextusAi\Agents\ValueObject\AgentCoordinatorResponse::class);
 
             // Verify memory is still accessible
             expect($memoryWrapper->get('session_test'))->toBe('session_value');

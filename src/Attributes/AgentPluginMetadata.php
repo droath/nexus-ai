@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Attributes;
 
-use Droath\PluginManager\Attributes\PluginMetadata;
+use Attribute;
 use Droath\NextusAi\Drivers\Enums\LlmProvider;
+use Droath\PluginManager\Attributes\PluginMetadata;
 
-#[\Attribute(\Attribute::TARGET_CLASS)]
+#[Attribute(Attribute::TARGET_CLASS)]
 class AgentPluginMetadata extends PluginMetadata
 {
     /**
@@ -19,7 +20,7 @@ class AgentPluginMetadata extends PluginMetadata
      *   The plugin human-readable name.
      * @param ?string $description
      *   The agent plugin description.
-     * @param \Droath\NextusAi\Drivers\Enums\LlmProvider $provider
+     * @param LlmProvider $provider
      *   The agent LLM resource provider.
      * @param array $tools = []
      *   The agent tools on which are available.

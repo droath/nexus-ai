@@ -4,28 +4,30 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Resources;
 
+use Exception;
+use JsonException;
 use Droath\NextusAi\Tools\Tool;
+use Droath\NextusAi\Drivers\Openai;
 use Illuminate\Support\Facades\Log;
 use OpenAI\Responses\StreamResponse;
-use Droath\NextusAi\Drivers\Openai;
 use Droath\NextusAi\Messages\UserMessage;
 use OpenAI\Responses\Responses\CreateResponse;
-use OpenAI\Contracts\Resources\ResponsesContract;
 use Droath\NextusAi\Resources\Concerns\WithInput;
 use Droath\NextusAi\Resources\Concerns\WithModel;
 use Droath\NextusAi\Resources\Concerns\WithTools;
+use OpenAI\Contracts\Resources\ResponsesContract;
 use Droath\NextusAi\Drivers\Concerns\HasStreaming;
-use OpenAI\Responses\Responses\Output\OutputMessage;
 use Droath\NextusAi\Resources\Concerns\WithMessages;
+use OpenAI\Responses\Responses\Output\OutputMessage;
 use Droath\NextusAi\Drivers\Contracts\DriverInterface;
-use OpenAI\Responses\Responses\Streaming\OutputTextDelta;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
+use OpenAI\Responses\Responses\Streaming\OutputTextDelta;
 use Droath\NextusAi\Resources\Concerns\WithResponseFormat;
 use Droath\NextusAi\Resources\Contracts\HasToolsInterface;
 use Droath\NextusAi\Resources\Contracts\HasDriverInterface;
-use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use Droath\NextusAi\Drivers\Contracts\HasStreamingInterface;
 use Droath\NextusAi\Resources\Contracts\HasMessagesInterface;
+use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use Droath\NextusAi\Resources\Contracts\HasResponseFormatInterface;
 use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
 
@@ -34,8 +36,6 @@ use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
  */
 class OpenaiStructuredResource extends ResourceBase implements HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface, StructuredResourceInterface
 {
-    protected string $model = Openai::DEFAULT_MODEL;
-
     use HasStreaming;
     use WithInput;
     use WithMessages;
@@ -43,18 +43,12 @@ class OpenaiStructuredResource extends ResourceBase implements HasDriverInterfac
     use WithResponseFormat;
     use WithTools;
 
+    protected string $model = Openai::DEFAULT_MODEL;
+
     public function __construct(
         protected ResponsesContract $resource,
         protected DriverInterface $driver
     ) {}
-
-    /**
-     * {@inheritDoc}
-     */
-    public function driver(): DriverInterface
-    {
-        return $this->driver;
-    }
 
     /**
      * {@inheritDoc}
@@ -66,6 +60,14 @@ class OpenaiStructuredResource extends ResourceBase implements HasDriverInterfac
         return $this->handleResponse(
             $this->createResourceResponse($parameters)
         );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function driver(): DriverInterface
+    {
+        return $this->driver;
     }
 
     /**
@@ -177,7 +179,7 @@ class OpenaiStructuredResource extends ResourceBase implements HasDriverInterfac
     /**
      * Invoke the resource function tool.
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function invokeTool(
         OutputFunctionToolCall $toolCall
@@ -202,7 +204,7 @@ class OpenaiStructuredResource extends ResourceBase implements HasDriverInterfac
     /**
      * Handle the resource function tool calling.
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function handleFunctionToolCall(
         OutputFunctionToolCall $output
@@ -231,7 +233,7 @@ class OpenaiStructuredResource extends ResourceBase implements HasDriverInterfac
                 $response instanceof StreamResponse => $this->handleStream($response),
                 $response instanceof CreateResponse => $this->handleSynchronous($response),
             };
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Log::error($exception->getMessage());
 
             return null;
@@ -258,7 +260,7 @@ class OpenaiStructuredResource extends ResourceBase implements HasDriverInterfac
     /**
      * Handle the resource stream process.
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     protected function handleStream(
         StreamResponse $stream,

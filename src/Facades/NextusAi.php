@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Droath\NextusAi\Facades;
 
+use Closure;
 use Illuminate\Support\Facades\Facade;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
 
@@ -14,8 +17,8 @@ use Droath\NextusAi\Responses\NextusAiResponseMessage;
 class NextusAi extends Facade
 {
     public static function fake(
-        ?\Closure $responseCallback = null,
-        ?\Closure $resourceCallback = null
+        ?Closure $responseCallback = null,
+        ?Closure $resourceCallback = null
     ) {
         if (is_null($responseCallback)) {
             $responseCallback = function () {

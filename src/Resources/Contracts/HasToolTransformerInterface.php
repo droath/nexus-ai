@@ -15,7 +15,7 @@ interface HasToolTransformerInterface
      * However, since tool definitions may change per LLM resource, it makes
      * sense to define them here as well.
      *
-     * @param \Droath\NextusAi\Tools\Tool $tool
+     * @param Tool $tool
      *   The tool generic tool definition.
      */
     public static function transformTool(Tool $tool): array;

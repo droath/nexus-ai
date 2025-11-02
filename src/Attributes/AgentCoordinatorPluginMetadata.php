@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Droath\NextusAi\Attributes;
 
+use Attribute;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
 use Droath\NextusAi\Agents\Enums\AgentStrategy;
 use Droath\PluginManager\Attributes\PluginMetadata;
-use Droath\NextusAi\Drivers\Enums\LlmProvider;
 
-#[\Attribute(\Attribute::TARGET_CLASS)]
+#[Attribute(Attribute::TARGET_CLASS)]
 class AgentCoordinatorPluginMetadata extends PluginMetadata
 {
     /**
@@ -18,9 +19,9 @@ class AgentCoordinatorPluginMetadata extends PluginMetadata
      *   The plugin identifier.
      * @param string $label
      *   The plugin human-readable name.
-     * @param \Droath\NextusAi\Drivers\Enums\LlmProvider $provider
+     * @param LlmProvider $provider
      *   The LLM provider for this agent coordinator
-     * @param \Droath\NextusAi\Agents\Enums\AgentStrategy $strategy
+     * @param AgentStrategy $strategy
      *   The agent coordinator strategy.
      * @param array $agents
      *   The agent plugins on which to coordinate.

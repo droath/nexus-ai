@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Droath\NextusAi\Resources\Concerns;
 
 use Illuminate\Support\Arr;
-use Illuminate\Contracts\Support\Arrayable;
 use Droath\NextusAi\Messages\SystemMessage;
+use Illuminate\Contracts\Support\Arrayable;
 use Droath\NextusAi\Resources\Contracts\HasDriverInterface;
 use Droath\NextusAi\Messages\Contracts\MessageDriverAwareInterface;
 
