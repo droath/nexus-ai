@@ -83,52 +83,50 @@ php artisan migrate
 ### Basic Chat Example
 
 ```php
-use Droath\NextusAi\Facades\NextusAi;
+use Droath\NextusAi\Facades\NextusAiClient;
 use Droath\NextusAi\Drivers\Enums\LlmProvider;
 use Droath\NextusAi\Messages\UserMessage;
 
 // Using OpenAI with Message objects (recommended)
-$response = NextusAi::driver(LlmProvider::OPENAI)
+$response = NextusAiClient::driver(LlmProvider::OPENAI)
     ->chat()
     ->withMessages([
         UserMessage::make('What is Laravel?')
-    ])
-    ->send();
+    ])();
 
 echo $response->getMessage();
 
 // Alternative: Using array syntax (also supported)
-$response = NextusAi::driver(LlmProvider::OPENAI)
+$response = NextusAiClient::driver(LlmProvider::OPENAI)
     ->chat()
     ->withMessages([
         ['role' => 'user', 'content' => 'What is Laravel?']
-    ])
-    ->send();
+    ])();
 ```
 
 ### Using Different Providers
 
 ```php
+use Droath\NextusAi\Facades\NextusAiClient;
 use Droath\NextusAi\Messages\UserMessage;
 use Droath\NextusAi\Messages\SystemMessage;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
 
 // Using Claude with Message objects
-$claudeResponse = NextusAi::driver(LlmProvider::CLAUDE)
-    ->chat()
+$driver = NextusAiClient::driver(LlmProvider::CLAUDE);
+$claudeResponse = $driver->chat()
     ->withModel('claude-3-5-sonnet-20241022')
     ->withMessages([
         SystemMessage::make('You are a helpful programming assistant.'),
         UserMessage::make('Explain async programming')
-    ])
-    ->send();
+    ])();
 
 // Using Perplexity
-$perplexityResponse = NextusAi::driver(LlmProvider::PERPLEXITY)
-    ->chat()
+$driver = NextusAiClient::driver(LlmProvider::PERPLEXITY);
+$perplexityResponse = $driver->chat()
     ->withMessages([
         UserMessage::make('Latest news on AI developments')
-    ])
-    ->send();
+    ])();
 ```
 
 ### Message Classes
@@ -137,6 +135,8 @@ The package provides dedicated message classes for better type safety and
 structure:
 
 ```php
+use Droath\NextusAi\Facades\NextusAiClient;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
 use Droath\NextusAi\Messages\UserMessage;
 use Droath\NextusAi\Messages\SystemMessage;
 use Droath\NextusAi\Messages\AssistantMessage;
@@ -146,13 +146,12 @@ $systemMessage = SystemMessage::make('You are a helpful assistant.');
 $userMessage = UserMessage::make('Hello, how are you?');
 
 // Send conversation with multiple messages
-$response = NextusAi::driver('openai')
-    ->chat()
+$driver = NextusAiClient::driver(LlmProvider::OPENAI);
+$response = $driver->chat()
     ->withMessages([
         SystemMessage::make('You are a helpful assistant specialized in Laravel.'),
         UserMessage::make('What are the new features in Laravel 11?'),
-    ])
-    ->send();
+    ])();
 
 // UserMessage supports context for additional metadata
 $messageWithContext = UserMessage::make(
@@ -190,7 +189,7 @@ $coordinator = AgentCoordinator::make(
     AgentStrategy::SEQUENTIAL
 );
 
-$result = $coordinator->execute($resource);
+$result = $coordinator->run($resource);
 ```
 
 ### Using Tools
@@ -198,6 +197,9 @@ $result = $coordinator->execute($resource);
 Define tools that LLMs can invoke:
 
 ```php
+use Droath\NextusAi\Facades\NextusAiClient;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
+use Droath\NextusAi\Messages\UserMessage;
 use Droath\NextusAi\Tools\Tool;
 use Droath\NextusAi\Tools\ToolProperty;
 
@@ -220,16 +222,15 @@ $weatherTool = Tool::make('get_weather')
             ->withEnums(['celsius', 'fahrenheit']),
     ]);
 
-$response = NextusAi::driver('openai')
-    ->chat()
+$driver = NextusAiClient::driver(LlmProvider::OPENAI);
+$response = $driver->chat()
     ->withTools([$weatherTool])
     ->withMessages([
         UserMessage::make('What is the weather in San Francisco?')
-    ])
-    ->send();
+    ])();
 
-// If the LLM decides to use the tool, you can access the tool calls
-// and execute them to get results
+// If the LLM decides to use the tool, it will be automatically executed
+// and the response will include the tool's output
 ```
 
 ### Memory Strategies
@@ -263,22 +264,36 @@ $preference = $memory->get('user_preference');
 
 ### Streaming Responses
 
-Get real-time streaming responses:
+Get real-time streaming responses using callbacks:
 
 ```php
+use Droath\NextusAi\Facades\NextusAiClient;
 use Droath\NextusAi\Messages\UserMessage;
+use Droath\NextusAi\Drivers\Enums\LlmProvider;
+use Droath\NextusAi\Responses\NextusAiResponseMessage;
 
-$stream = NextusAi::driver('openai')
-    ->chat()
+$driver = NextusAiClient::driver(LlmProvider::OPENAI);
+$streamOutput = '';
+
+$chat = $driver->chat()
     ->withModel('gpt-4')
     ->withMessages([
         UserMessage::make('Write a long story')
     ])
-    ->stream();
+    ->usingStream(
+        function (string $chunk, bool $initialized) use (&$streamOutput) {
+            // Process each chunk as it arrives
+            echo $chunk;
+            $streamOutput .= $chunk;
+        },
+        function (NextusAiResponseMessage $response) {
+            // Called when streaming is complete
+            echo "\n\nStreaming finished!";
+        }
+    );
 
-foreach ($stream as $chunk) {
-    echo $chunk;
-}
+// Execute the chat request
+$response = $chat();
 ```
 
 ## Supported LLM Providers
