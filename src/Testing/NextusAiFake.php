@@ -7,7 +7,7 @@ namespace Droath\NextusAi\Testing;
 use Droath\NextusAi\Drivers\Enums\LlmProvider;
 use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
 use Droath\NextusAi\Resources\Contracts\ResourceInterface;
-use Droath\NextusAi\Resources\Contracts\ResponsesResourceInterface;
+use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
 use Droath\NextusAi\Testing\Resources\FakeResource;
 use Illuminate\Support\Testing\Fakes\Fake;
 use PHPUnit\Framework\Assert;
@@ -41,15 +41,15 @@ class NextusAiFake implements Fake
     }
 
     /**
-     * Create a fake responses resource.
+     * Create a fake structured resource.
      */
-    public function responses(LlmProvider $provider): ResponsesResourceInterface
+    public function structured(LlmProvider $provider): StructuredResourceInterface
     {
         $this->provider = $provider;
 
         $this->resource = $this->buildResource();
 
-        assert($this->resource instanceof ResponsesResourceInterface);
+        assert($this->resource instanceof StructuredResourceInterface);
 
         return $this->resource;
     }

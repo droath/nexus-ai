@@ -19,13 +19,13 @@ use Droath\NextusAi\Resources\Contracts\HasMessagesInterface;
 use Droath\NextusAi\Resources\Contracts\HasResponseFormatInterface;
 use Droath\NextusAi\Resources\Contracts\HasToolsInterface;
 use Droath\NextusAi\Resources\Contracts\HasToolTransformerInterface;
-use Droath\NextusAi\Resources\Contracts\ResponsesResourceInterface;
+use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
 use Droath\NextusAi\Resources\ResourceBase;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
 use Droath\NextusAi\Tools\Tool;
 use OpenAI\Testing\ClientFake;
 
-class FakeResource extends ResourceBase implements ChatResourceInterface, HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface, HasToolTransformerInterface, ResponsesResourceInterface
+class FakeResource extends ResourceBase implements ChatResourceInterface, HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface, HasToolTransformerInterface, StructuredResourceInterface
 {
     use HasStreaming;
     use WithMessages;

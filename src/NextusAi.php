@@ -4,12 +4,12 @@ namespace Droath\NextusAi;
 
 use Droath\NextusAi\Drivers\Contracts\HasChatInterface;
 use Droath\NextusAi\Drivers\Contracts\HasEmbeddingInterface;
-use Droath\NextusAi\Drivers\Contracts\HasResponsesInterface;
+use Droath\NextusAi\Drivers\Contracts\HasStructuredInterface;
 use Droath\NextusAi\Drivers\Enums\LlmProvider;
 use Droath\NextusAi\Facades\NextusAiClient;
 use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
 use Droath\NextusAi\Resources\Contracts\EmbeddingsResourceInterface;
-use Droath\NextusAi\Resources\Contracts\ResponsesResourceInterface;
+use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
 use Droath\NextusAi\Testing\NextusAiFake;
 
 /**
@@ -41,17 +41,17 @@ class NextusAi
         return $driver->chat();
     }
 
-    public function responses(LlmProvider $provider): ResponsesResourceInterface
+    public function structured(LlmProvider $provider): StructuredResourceInterface
     {
         $driver = NextusAiClient::driver($provider->value);
 
-        if (! $driver instanceof HasResponsesInterface) {
+        if (! $driver instanceof HasStructuredInterface) {
             throw new \RuntimeException(
-                'The driver does not support the response resource.'
+                'The driver does not support the structured resource.'
             );
         }
 
-        return $driver->responses();
+        return $driver->structured();
     }
 
     /**

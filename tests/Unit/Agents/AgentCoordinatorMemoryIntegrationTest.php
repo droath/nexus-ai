@@ -93,10 +93,10 @@ describe('AgentCoordinator Memory Integration', function () {
             NextusAi::fake(resourceCallback: function () use ($response1, $response2, $coordinatorResponse) {
                 $client = new ClientFake([$response1, $response2, $coordinatorResponse]);
 
-                return (new \Droath\NextusAi\Drivers\Openai($client))->responses();
+                return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
             });
 
-            $resource = NextusAi::responses(LlmProvider::OPENAI);
+            $resource = NextusAi::structured(LlmProvider::OPENAI);
 
             // Execute coordination
             $result = $coordinator->run($resource);
@@ -145,10 +145,10 @@ describe('AgentCoordinator Memory Integration', function () {
             NextusAi::fake(resourceCallback: function () use ($response1, $response2, $coordinatorResponse) {
                 $client = new ClientFake([$response1, $response2, $coordinatorResponse]);
 
-                return (new \Droath\NextusAi\Drivers\Openai($client))->responses();
+                return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
             });
 
-            $resource = NextusAi::responses(LlmProvider::OPENAI);
+            $resource = NextusAi::structured(LlmProvider::OPENAI);
 
             // Execute sequential coordination
             $result = $coordinator->run($resource);
@@ -205,10 +205,10 @@ describe('AgentCoordinator Memory Integration', function () {
             NextusAi::fake(resourceCallback: function () use ($response, $coordinatorResponse) {
                 $client = new ClientFake([$response, $coordinatorResponse]);
 
-                return (new \Droath\NextusAi\Drivers\Openai($client))->responses();
+                return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
             });
 
-            $resource = NextusAi::responses(LlmProvider::OPENAI);
+            $resource = NextusAi::structured(LlmProvider::OPENAI);
             $result = $coordinator->run($resource);
 
             // Verify the coordinator executed successfully

@@ -11,18 +11,18 @@ use OpenAI\Contracts\ClientContract;
 use Droath\NextusAi\Tools\ToolProperty;
 use Droath\NextusAi\Resources\OpenaiChatResource;
 use Droath\NextusAi\Resources\OpenaiEmbeddingResource;
-use Droath\NextusAi\Resources\OpenaiResponsesResource;
+use Droath\NextusAi\Resources\OpenaiStructuredResource;
 use Droath\NextusAi\Drivers\Contracts\HasChatInterface;
 use Droath\NextusAi\Drivers\Contracts\HasEmbeddingInterface;
-use Droath\NextusAi\Drivers\Contracts\HasResponsesInterface;
+use Droath\NextusAi\Drivers\Contracts\HasStructuredInterface;
 use Droath\NextusAi\Resources\Contracts\ChatResourceInterface;
-use Droath\NextusAi\Resources\Contracts\ResponsesResourceInterface;
+use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
 use Droath\NextusAi\Resources\Contracts\EmbeddingsResourceInterface;
 
 /**
  * Define the OpenAI driver for the Nextus AI LLM client.
  */
-class Openai extends NextusAiDriver implements HasChatInterface, HasEmbeddingInterface, HasResponsesInterface
+class Openai extends NextusAiDriver implements HasChatInterface, HasEmbeddingInterface, HasStructuredInterface
 {
     /** @var string */
     public const string DEFAULT_MODEL = 'gpt-4o-mini';
@@ -161,9 +161,9 @@ class Openai extends NextusAiDriver implements HasChatInterface, HasEmbeddingInt
     /**
      * {@inheritDoc}
      */
-    public function responses(): ResponsesResourceInterface
+    public function structured(): StructuredResourceInterface
     {
-        return new OpenaiResponsesResource(
+        return new OpenaiStructuredResource(
             $this->client->responses(),
             $this
         );

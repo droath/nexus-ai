@@ -47,7 +47,7 @@ test('agent coordinator plugins using a parallel strategy', function () {
     NextusAi::fake(resourceCallback: function () use ($contentResponse, $metadataResponse, $coordinatorResponse) {
         $client = (new ClientFake([$contentResponse, $metadataResponse, $coordinatorResponse]));
 
-        return (new \Droath\NextusAi\Drivers\Openai($client))->responses();
+        return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
     });
 
     /** @var \Droath\NextusAi\Plugins\AgentCoordinator\AgentCoordinatorPlugin $coordinator */

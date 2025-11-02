@@ -47,7 +47,7 @@ class ContentAgentCoordinatorPlugin extends AgentCoordinatorPlugin
 
     protected function resource(): ResourceInterface
     {
-        return NextusAi::responses($this->provider());
+        return NextusAi::structured($this->provider());
     }
 
     protected function responseFormatSchema(): ObjectSchema

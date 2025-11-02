@@ -6,7 +6,7 @@ namespace Droath\NextusAi\Resources\Contracts;
 
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
 
-interface ResponsesResourceInterface extends ResourceInterface
+interface StructuredResourceInterface extends ResourceInterface
 {
     public function __invoke(): ?NextusAiResponseMessage;
 }

@@ -27,12 +27,12 @@ use OpenAI\Responses\Responses\Output\OutputFunctionToolCall;
 use Droath\NextusAi\Drivers\Contracts\HasStreamingInterface;
 use Droath\NextusAi\Resources\Contracts\HasMessagesInterface;
 use Droath\NextusAi\Resources\Contracts\HasResponseFormatInterface;
-use Droath\NextusAi\Resources\Contracts\ResponsesResourceInterface;
+use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
 
 /**
- * Define the OpenAI responses resource.
+ * Define the OpenAI structured resource.
  */
-class OpenaiResponsesResource extends ResourceBase implements HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface, ResponsesResourceInterface
+class OpenaiStructuredResource extends ResourceBase implements HasDriverInterface, HasMessagesInterface, HasResponseFormatInterface, HasStreamingInterface, HasToolsInterface, StructuredResourceInterface
 {
     protected string $model = Openai::DEFAULT_MODEL;
 

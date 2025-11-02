@@ -41,10 +41,10 @@ test('parallel agent coordinator', closure: function () {
     NextusAi::fake(resourceCallback: function () use ($contentResponse, $metadataResponse, $coordinatorResponse) {
         $client = (new ClientFake([$contentResponse, $metadataResponse, $coordinatorResponse]));
 
-        return (new \Droath\NextusAi\Drivers\Openai($client))->responses();
+        return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
     });
 
-    $resource = NextusAi::responses(LlmProvider::OPENAI);
+    $resource = NextusAi::structured(LlmProvider::OPENAI);
 
     $response = AgentCoordinator::make(
         'This is the website source content.',
@@ -99,10 +99,10 @@ test('sequential agent coordinator', closure: function () {
     NextusAi::fake(resourceCallback: function () use ($contentResponse, $metadataResponse, $coordinatorResponse) {
         $client = (new ClientFake([$contentResponse, $metadataResponse, $coordinatorResponse]));
 
-        return (new \Droath\NextusAi\Drivers\Openai($client))->responses();
+        return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
     });
 
-    $resource = NextusAi::responses(LlmProvider::OPENAI);
+    $resource = NextusAi::structured(LlmProvider::OPENAI);
 
     $response = AgentCoordinator::make(
         'This is the website source content.',
@@ -153,7 +153,7 @@ test('router agent coordinator', closure: function () {
             Agent::make()->setSystemPrompt('You are a weather agent that provides weather information.'),
         ],
         strategy: AgentStrategy::ROUTER
-    )->run(NextusAi::responses(LlmProvider::OPENAI));
+    )->run(NextusAi::structured(LlmProvider::OPENAI));
 
     $response
         ->assertStrategyEqual(AgentStrategy::ROUTER)

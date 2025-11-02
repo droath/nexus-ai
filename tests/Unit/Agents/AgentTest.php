@@ -5,7 +5,7 @@ use Droath\NextusAi\Facades\NextusAi;
 use Droath\NextusAi\Drivers\Enums\LlmProvider;
 use Droath\NextusAi\Messages\SystemMessage;
 use Droath\NextusAi\Messages\UserMessage;
-use Droath\NextusAi\Resources\Contracts\ResponsesResourceInterface;
+use Droath\NextusAi\Resources\Contracts\StructuredResourceInterface;
 use Droath\NextusAi\Responses\NextusAiResponseMessage;
 use Droath\NextusAi\Testing\Support\ResourceResponsesHelper;
 use Droath\NextusAi\Tools\Tool;
@@ -23,7 +23,7 @@ test('agent with tool', function () {
     NextusAi::fake(resourceCallback: function () use ($resourceResponse) {
         $client = (new ClientFake([$resourceResponse]));
 
-        return (new \Droath\NextusAi\Drivers\Openai($client))->responses();
+        return (new \Droath\NextusAi\Drivers\Openai($client))->structured();
     });
     $tool = Tool::make('get_weather')
         ->describe('Get the current weather in a given location')
@@ -39,7 +39,7 @@ test('agent with tool', function () {
                 ->withEnums(['celsius', 'fahrenheit']),
         ]);
 
-    $resource = NextusAi::responses(LlmProvider::OPENAI);
+    $resource = NextusAi::structured(LlmProvider::OPENAI);
 
     $agentResponse = Agent::make()
         ->setSystemPrompt('You are a weather bot')
@@ -47,7 +47,7 @@ test('agent with tool', function () {
         ->addTool($tool)
         ->run($resource);
 
-    NextusAi::assertResource(function (ResponsesResourceInterface $resource) {
+    NextusAi::assertResource(function (StructuredResourceInterface $resource) {
         $resource = invade($resource);
 
         /** @phpstan-ignore-next-line */

@@ -15,7 +15,7 @@ trait HasLlmResource
      */
     protected function resource(): ResourceInterface
     {
-        return NextusAi::responses($this->provider());
+        return NextusAi::structured($this->provider());
     }
 
     /**
