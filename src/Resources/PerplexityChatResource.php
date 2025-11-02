@@ -49,7 +49,8 @@ class PerplexityChatResource extends ResourceBase implements ChatResourceInterfa
     protected function handleResponse(): ?NextusAiResponseMessage
     {
         $response = $this->client->createChatCompletion(
-            $this->resourceParameters()
+            [],  // First arg: URL path parameters (empty for this endpoint)
+            $this->resourceParameters()  // Second arg: body parameters
         );
 
         if ($response->getStatusCode() === 200) {
