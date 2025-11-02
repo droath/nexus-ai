@@ -48,8 +48,11 @@ class PerplexityChatResource extends ResourceBase implements ChatResourceInterfa
 
     protected function handleResponse(): ?NextusAiResponseMessage
     {
+        // PHPStan ignore: The Perplexity SDK's docblock is incorrect.
+        // The actual implementation expects two array parameters, not a callable.
         $response = $this->client->createChatCompletion(
             [],  // First arg: URL path parameters (empty for this endpoint)
+            /** @phpstan-ignore argument.type */
             $this->resourceParameters()  // Second arg: body parameters
         );
 
